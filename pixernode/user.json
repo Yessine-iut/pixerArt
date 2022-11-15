@@ -1,0 +1,17 @@
+[{
+  "_id": {
+    "$oid": "6373d7bd9db4ea92467a807f"
+  },
+  "username": "Yessine",
+  "mdp": "test",
+  "role": "admin",
+  "theme": "light"
+},{
+  "_id": {
+    "$oid": "6373d7db9db4ea92467a8081"
+  },
+  "username": "Saad",
+  "mdp": "test2",
+  "role": "client",
+  "theme": "dark"
+}]

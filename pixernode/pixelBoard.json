@@ -1,0 +1,47 @@
+[{
+  "_id": {
+    "$oid": "6373daad9db4ea92467a809e"
+  },
+  "statut": true,
+  "dateCreation": "01/06/2022",
+  "dateFin": "01/09/2022",
+  "taille": {
+    "width": 50,
+    "height": 50
+  },
+  "auteur": "Yessine",
+  "mode": "test",
+  "delai": 5,
+  "titre": "Title",
+  "pixels": {
+    "position": {
+      "x": 60,
+      "y": 80
+    },
+    "couleur": "blue",
+    "auteur": "Saad"
+  }
+},{
+  "_id": {
+    "$oid": "6373daf49db4ea92467a80a0"
+  },
+  "statut": false,
+  "dateCreation": "01/06/2022",
+  "dateFin": null,
+  "taille": {
+    "width": 50,
+    "height": 50
+  },
+  "auteur": "Yessine",
+  "mode": "test2",
+  "delai": 10,
+  "titre": "PixerlBoard2",
+  "pixels": {
+    "position": {
+      "x": 90,
+      "y": 20
+    },
+    "couleur": "dark",
+    "auteur": "Yessine"
+  }
+}]
