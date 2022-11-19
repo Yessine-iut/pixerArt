@@ -1,0 +1,20 @@
+.ToggleMode {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	.fa {
+		font-size: 16px;
+		color: #fff;
+		line-height: 10px;;
+	}
+	.react-toggle-track-check, .react-toggle-track-x {
+		height: 17px;
+	}
+	.react-toggle--checked .react-toggle-track,
+	.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+		background-color: #4d4d4d;
+	}
+	.react-toggle--checked .react-toggle-thumb {
+		    border-color: #4d4d4d;
+	}
+}
