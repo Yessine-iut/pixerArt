@@ -12,7 +12,6 @@ const dbName = 'pixerart';
 exports.connexionMongo = async () => {
 	let client = await MongoClient.connect(url, { useNewUrlParser: true });
 	let db = client.db(dbName);
-console.log(db)
 	return db;
 }
 
@@ -129,6 +128,37 @@ exports.getPixelBoardById = async (id) => {
 	}
 }
 
+exports.getPixelBoardsByAuteur = async (auteur) => {
+	let client = await MongoClient.connect(url, { useNewUrlParser: true });
+	let db = client.db(dbName);
+	let reponse;
+  let users;
+  console.log("mongoDbConnect "+auteur)
+
+	try {
+		let query = { "auteur": auteur };
+
+			users = await db.collection('pixelBoard')
+				.find(query)
+        .toArray();
+        reponse = {
+          succes: true,
+          msg: "pixelBoard find avec succès",
+          data: users,
+        }
+		}
+	catch (err) {
+		reponse = {
+			succes: false,
+			error: err,
+			msg: "erreur lors du find des pixelBoards"
+		};
+	} finally {
+		client.close();
+		return reponse;
+	}
+};
+
 exports.createUser = async (formData) => {
 	let client = await MongoClient.connect(url, { useNewUrlParser: true });
 	let db = client.db(dbName);
@@ -241,7 +271,7 @@ exports.updatePixelBoard = async (id, formData) => {
 				theme: formData.theme
 			}
 		};
-		let result = await db.collection("user").updateOne(myquery, newvalues);
+		let result = await db.collection("pixelBoard").updateOne(myquery, newvalues);
 
 		reponse = {
 			succes: true,
@@ -263,6 +293,7 @@ exports.updatePixelBoard = async (id, formData) => {
 }
 
 exports.deleteUser = async function (id, callback) {
+	console.log("test")
 	let client = await MongoClient.connect(url, { useNewUrlParser: true });
 	let db = client.db(dbName);
 	let reponse;

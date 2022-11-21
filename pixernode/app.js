@@ -95,6 +95,15 @@ app.get('/api/user/:id', (req, res) => {
 		});
 });
 
+// Récupération d'un seul user par son id
+app.get('/api/pixelBoardsByAuteur/:auteur', (req, res) => {
+	var auteur = req.params.auteur;
+	mongoDBModule.getPixelBoardsByAuteur(auteur)
+		.then(data => {
+			res.send(JSON.stringify(data));
+		});
+});
+
 app.get('/api/pixelBoards', (req, res) => {
 	mongoDBModule.getPixelBoards()
 		.then(data => {
