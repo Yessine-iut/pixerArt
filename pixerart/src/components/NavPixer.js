@@ -9,7 +9,7 @@ import './NavPixer.scss';
 export const NavPixer = ({ user,storageMode }) => {
     function IsLoggedIn(user) {
         let res;
-        if (user.user != undefined) {
+        if (user.user !== null) {
             res = <Navbar.Text className={`ProfileCard ${storageMode ? 'dark' : 'light'}`}>
                 Signed in as: <a className={`ProfileCard ${storageMode ? 'dark' : 'light'}`} href="#login">{user.user.username}</a>
             </Navbar.Text>

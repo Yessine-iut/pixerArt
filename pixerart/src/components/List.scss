@@ -1,0 +1,23 @@
+.BoardList {
+	float:right;
+	> ul {
+		list-style-type: none;
+		list-style: none;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		width: 100%;
+		margin: 0 0 150px 0;
+		padding: 0;
+		li > h1 {
+			width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+	.fa {
+		font-size: 2em;
+		color: #4aa0fb;
+	}
+}

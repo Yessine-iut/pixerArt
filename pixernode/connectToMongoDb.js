@@ -7,7 +7,7 @@ var ObjectId = require('mongodb').ObjectID;
 const url = 'mongodb://localhost:27017';
 
 // Database Name
-const dbName = 'pixerart';
+const dbName = 'pixerArt';
 
 exports.connexionMongo = async () => {
 	let client = await MongoClient.connect(url, { useNewUrlParser: true });

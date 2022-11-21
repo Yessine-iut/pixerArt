@@ -1,0 +1,24 @@
+.BoardProfile {
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+	margin: 10px 10px 10px 0;
+	box-shadow: 0 2px 2px #ccc;
+	border: 1px solid #ccc;
+	> h1 {
+		margin: 0 0 10px 0;
+		font-size: 1.4em;
+		text-transform: uppercase;
+			width: 100%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+	}
+	&.dark {
+		background-color: #282c35;
+		color: #fff;
+	}
+}
