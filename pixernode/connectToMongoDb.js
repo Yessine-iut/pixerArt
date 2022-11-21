@@ -25,11 +25,19 @@ exports.getUsers = async () => {
 			users = await db.collection('user')
 				.find()
         .toArray();
-        reponse = {
-          succes: true,
-          msg: "users recherchés avec succès",
-          data: users,
-        }
+		if(!users){
+			reponse = {
+				succes: false,
+				msg: "aucun users",
+				data: [],
+			  }
+		}else{
+			reponse = {
+				succes: true,
+				msg: "users recherchés avec succès",
+				data: users,
+			  }
+		}
 		}
 	catch (err) {
 		reponse = {
@@ -47,16 +55,23 @@ exports.getPixelBoards = async () => {
 	let client = await MongoClient.connect(url, { useNewUrlParser: true });
 	let db = client.db(dbName);
 	let reponse;
-  let users;
+  let pixelBoard;
 
 	try {
-			users = await db.collection('pixelBoard')
+			pixelBoard = await db.collection('pixelBoard')
 				.find()
         .toArray();
+		if(!pixelBoard){
+			reponse = {
+				succes: false,
+				msg: "aucun pixelBoard",
+				data: [],
+			  }
+		}
         reponse = {
           succes: true,
           msg: "pixelBoard find avec succès",
-          data: users,
+          data: pixelBoard,
         }
 		}
 	catch (err) {
@@ -80,13 +95,21 @@ exports.getUserById = async (id) => {
 		let myquery = { "_id": ObjectId(id) };
 
 		let data = await db.collection("user").findOne(myquery);
-
-		reponse = {
-			succes: true,
-			user: data,
-			error: null,
-			msg: "User trouvé"
-		};
+		if(!data){
+			reponse = {
+				succes: false,
+				user: null,
+				error: null,
+				msg: "aucun user"
+			};
+		}else{
+			reponse = {
+				succes: true,
+				user: data,
+				error: null,
+				msg: "User trouvé"
+			};
+		}
 	} catch (err) {
 		reponse = {
 			succes: false,
@@ -108,13 +131,21 @@ exports.getPixelBoardById = async (id) => {
 		let myquery = { "_id": ObjectId(id) };
 
 		let data = await db.collection("pixelBoard").findOne(myquery);
-
-		reponse = {
-			succes: true,
-			user: data,
-			error: null,
-			msg: "PixelBoard trouvé"
-		};
+		if(!data){
+			reponse = {
+				succes: true,
+				user: null,
+				error: null,
+				msg: "Aucun PixelBoard trouvé"
+			};
+		}else{
+			reponse = {
+				succes: true,
+				user: data,
+				error: null,
+				msg: "PixelBoard trouvé"
+			};
+		}
 	} catch (err) {
 		reponse = {
 			succes: false,
@@ -141,11 +172,19 @@ exports.getPixelBoardsByAuteur = async (auteur) => {
 			users = await db.collection('pixelBoard')
 				.find(query)
         .toArray();
-        reponse = {
-          succes: true,
-          msg: "pixelBoard find avec succès",
-          data: users,
-        }
+		if(!users){
+			reponse = {
+				succes: true,
+				msg: "pixelBoard find avec succès",
+				data: users,
+			  }
+		}else{
+			reponse = {
+				succes: true,
+				msg: "pixelBoard find avec succès",
+				data: users,
+			  }
+		}
 		}
 	catch (err) {
 		reponse = {
