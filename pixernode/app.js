@@ -31,6 +31,10 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.options('/*', (_, res) => {
+    res.sendStatus(200);
+});
+
 // Lance le serveur avec express
 server.listen(port);
 console.log("Serveur lancé sur le port : " + port);
@@ -87,7 +91,7 @@ app.get('/api/users', (req, res) => {
 });
 // Récupération d'un seul user par son id
 app.get('/api/user/:username', (req, res) => {
-	var id = req.params.username;
+	var username = req.params.username;
 
 	mongoDBModule.getUserByUsername(username)
 		.then(data => {

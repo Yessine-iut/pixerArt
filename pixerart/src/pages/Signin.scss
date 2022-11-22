@@ -1,0 +1,11 @@
+.Signin {
+	width:35%;
+	margin-left:35%;
+	text-align: left;
+}
+.Signsection{
+	&.dark {
+		background-color: #282c35;
+		color: #fff;
+	}
+}

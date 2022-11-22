@@ -7,7 +7,7 @@ import useLocalStorage from '../lib/useLocalStorage';
 import './NavPixer.scss';
 
 
-export const NavPixer = ({ user}) => {
+export const NavPixer = ({ user }) => {
     const storageMode = useLocalStorage('darkmode')[0];
 
     function IsLoggedIn(user) {
@@ -17,11 +17,11 @@ export const NavPixer = ({ user}) => {
                 Signed in as: <a className={`ProfileCard ${storageMode ? 'dark' : 'light'}`} href="#login">{user.user.username}</a>
             </Navbar.Text>
         }
-        else res = <Button variant="outline-success">Login</Button>
+        else res = <Nav> <Button href="/signin" variant="outline-primary">Sign in</Button>{' '}<Button variant="outline-success">Login</Button></Nav>
         return res
     }
     return (
-        <Navbar  className={`NavPixer ${storageMode ? 'dark' : 'light'}`}>
+        <Navbar className={`NavPixer ${storageMode ? 'dark' : 'light'}`}>
             <Container>
                 <Navbar.Brand className={`ProfileCard ${storageMode ? 'dark' : 'light'}`} href="/">PixerArt</Navbar.Brand>
                 <Nav.Link href="/">Home</Nav.Link>
