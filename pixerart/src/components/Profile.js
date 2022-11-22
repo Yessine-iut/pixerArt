@@ -30,9 +30,9 @@ const Profile = ({user}) => {
         };
 
 	if (user!=null) 
-	content = <><ProfileCard user={user} storageMode={storageMode} contributions={contributions} handleClick={contributionsHandler}/><BoardList boards={user.boards} storageMode={storageMode}/></>
+	content = <><ProfileCard user={user} contributions={contributions} handleClick={contributionsHandler}/><BoardList boards={user.boards}/></>
 	return (
-		<><NavPixer user={user} storageMode={storageMode} /><div className={`Profile ${storageMode ? 'dark' : 'light'}`}>
+		<><NavPixer user={user} /><div className={`Profile ${storageMode ? 'dark' : 'light'}`}>
 			<div className="container">
 				<section className="track-section">
 					<ToggleModeNight

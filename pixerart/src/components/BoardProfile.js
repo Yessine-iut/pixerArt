@@ -1,9 +1,10 @@
 import './BoardProfile.scss';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
+import useLocalStorage from '../lib/useLocalStorage';
 
-export const BoardProfile = ({ board,storageMode}) => {
-
+export const BoardProfile = ({ board}) => {
+	const storageMode = useLocalStorage('darkmode')[0];
 	return (
 		<Card className={`BoardProfile ${storageMode ? 'dark' : 'light'}`} style={{ height: '20rem', width: '20rem' }}>
 			<Card.Body>

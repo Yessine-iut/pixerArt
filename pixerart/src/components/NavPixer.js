@@ -2,11 +2,14 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
+import useLocalStorage from '../lib/useLocalStorage';
 
 import './NavPixer.scss';
 
 
-export const NavPixer = ({ user,storageMode }) => {
+export const NavPixer = ({ user}) => {
+    const storageMode = useLocalStorage('darkmode')[0];
+
     function IsLoggedIn(user) {
         let res;
         if (user.user !== null) {
@@ -20,8 +23,8 @@ export const NavPixer = ({ user,storageMode }) => {
     return (
         <Navbar  className={`NavPixer ${storageMode ? 'dark' : 'light'}`}>
             <Container>
-                <Navbar.Brand className={`ProfileCard ${storageMode ? 'dark' : 'light'}`} href="#home">PixerArt</Navbar.Brand>
-                <Nav.Link href="#home">Home</Nav.Link>
+                <Navbar.Brand className={`ProfileCard ${storageMode ? 'dark' : 'light'}`} href="/">PixerArt</Navbar.Brand>
+                <Nav.Link href="/">Home</Nav.Link>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
                     <IsLoggedIn user={user} />

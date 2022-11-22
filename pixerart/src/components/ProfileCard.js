@@ -1,10 +1,12 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import useLocalStorage from '../lib/useLocalStorage';
 
 import './ProfileCard.scss';
 
-export const ProfileCard =({ user,storageMode,contributions,handleClick}) => {
-    
+export const ProfileCard =({ user,contributions,handleClick}) => {
+  const storageMode = useLocalStorage('darkmode')[0];
+
   return (
     <Card  className={`ProfileCard ${storageMode ? 'dark' : 'light'}`} style={{ float:'left',width: '20rem' }}>
       <Card.Img variant="top" style={{ width: '20rem' }} src="https://picsum.photos/150/150" />

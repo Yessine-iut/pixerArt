@@ -1,18 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import {NavPixer} from '../components/NavPixer';
+import {PixelBoard} from '../components/PixelBoard';
 
 
-export const Home = () => {
+
+export const PixelBoardPage = ({pixelBoard}) => {
 
 	return (
 		<React.StrictMode>
 			<NavPixer user={null} />
 			<Row>
 				<Col>
-					<h1>Home</h1>
-					<Link to="/profile">Votre profile</Link>
+					<h1>PixelBoard</h1>
+					<PixelBoard/>
 				</Col>
 			</Row>
 		</React.StrictMode>
