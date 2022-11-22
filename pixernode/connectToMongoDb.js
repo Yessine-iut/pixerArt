@@ -86,13 +86,13 @@ exports.getPixelBoards = async () => {
 	}
 };
 
-exports.getUserById = async (id) => {
+exports.getUserByUsername = async (username) => {
 	let client = await MongoClient.connect(url, { useNewUrlParser: true });
 	let db = client.db(dbName);
 	let reponse;
 
 	try {
-		let myquery = { "_id": ObjectId(id) };
+		let myquery = { "username": username };
 
 		let data = await db.collection("user").findOne(myquery);
 		if(!data){

@@ -86,10 +86,10 @@ app.get('/api/users', (req, res) => {
 		});
 });
 // Récupération d'un seul user par son id
-app.get('/api/user/:id', (req, res) => {
-	var id = req.params.id;
+app.get('/api/user/:username', (req, res) => {
+	var id = req.params.username;
 
-	mongoDBModule.getUserById(id)
+	mongoDBModule.getUserByUsername(username)
 		.then(data => {
 			res.send(JSON.stringify(data));
 		});
