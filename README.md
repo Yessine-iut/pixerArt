@@ -23,3 +23,24 @@ PixelBoard:
 		     couleur:String,
 		     auteur:String
 		    }
+
+# Lancer le projet 
+## Lancer la base de données dockerizée
+```bash
+cd pixernode
+sudo docker compose up
+```
+
+## Lancer le backend
+```bash
+cd pixernode
+npm i
+node app.js
+```
+
+## Lancer le frontend
+```bash
+cd pixerart
+npm i
+npm start
+```
