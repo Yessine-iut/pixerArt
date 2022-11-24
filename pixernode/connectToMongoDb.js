@@ -122,6 +122,54 @@ exports.getUserByUsername = async (username) => {
 		return reponse;
 	}
 }
+
+exports.login = async (username,password) => {
+	let client = await MongoClient.connect(url, { useNewUrlParser: true });
+	let db = client.db(dbName);
+	let reponse;
+
+	try {
+		let myquery = { "username": username};
+
+		let data = await db.collection("user").findOne(myquery);
+		const hash = await bcrypt.hash(password, 10)
+		if(!data){
+			reponse = {
+				succes: false,
+				login: false,
+				error: null,
+				msg: "aucun user"
+			};
+		}else{
+			if(data.mdp==hash){
+				reponse = {
+					succes: false,
+					login: true,
+					error: null,
+					msg: "login"
+				};
+			}else{
+				reponse = {
+					succes: false,
+					login: false,
+					error: null,
+					msg: "wrong password"
+				};
+			}
+		}
+	} catch (err) {
+		reponse = {
+			succes: false,
+			user: null,
+			error: err,
+			msg: "User non trouvé"
+		};
+	} finally {
+		client.close();
+		return reponse;
+	}
+}
+
 exports.getPixelBoardById = async (id) => {
 	let client = await MongoClient.connect(url, { useNewUrlParser: true });
 	let db = client.db(dbName);
@@ -202,11 +250,11 @@ exports.createUser = async (formData) => {
 	let client = await MongoClient.connect(url, { useNewUrlParser: true });
 	let db = client.db(dbName);
 	let reponse;
-
+	const hash = await bcrypt.hash(formData.mdp, 10)
 	try {
 		let toInsert = {
 			username: formData.username,
-			mdp: formData.mdp,
+			mdp: hash,
 			role: formData.role,
       theme:formData.theme
 		};

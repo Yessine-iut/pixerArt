@@ -83,6 +83,9 @@ app.get('/api/connection', (req, res) => {
 		});
 });
 
+app.get('/api/login', (req, res) => {
+	
+});
 app.get('/api/users', (req, res) => {
 	mongoDBModule.getUsers()
 		.then(data => {
@@ -174,5 +177,6 @@ app.delete('/api/pixelBoard/:id', (req, res) => {
 			res.send(JSON.stringify(data));
 		});
 })
+
 
 
