@@ -83,8 +83,8 @@ app.get('/api/connection', (req, res) => {
 		});
 });
 
-app.get('/api/login', (req, res) => {
-	
+app.get('/api/createUsers', (req, res) => {
+	mongoDBModule.createUser();
 });
 app.get('/api/users', (req, res) => {
 	mongoDBModule.getUsers()
