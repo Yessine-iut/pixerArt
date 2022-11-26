@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import withLoading from '../components/withLoading';
 import Profile from '../components/Profile';
+import useSessionStorage from '../lib/useSessionStorage';
 
 function ProfilePage() {
 	const ProfileLoading = withLoading(Profile);
+	let user = useSessionStorage('user')[0];
+	let token = useSessionStorage('token')[0];
 	const [appState, setAppState] = useState({
 		loading: false,
-		user: null,
+		user: user?user:null,
 	});
 	useEffect(() => {
 		setAppState({ loading: true });
-		const apiUrl = 'http://localhost:8080/api/user/saad1';
-		axios.get(apiUrl).then((userapi) => {
-		  let user = userapi.data.user;
-		  if(user!=null){
+		if(user!=null){
 			const apiUrlBoards = 'http://localhost:8080/api/pixelBoardsByAuteur/'+user.username;
 			axios.get(apiUrlBoards).then((boardsapi) => {
 				user.boards = boardsapi.data.data;
@@ -23,9 +23,7 @@ function ProfilePage() {
 		  }
 		  else 
 		  setAppState({ loading: false, user: user });
-
-		});
-	  }, [setAppState]);
+	  }, [setAppState, user,token]);
 	return (
 		<React.StrictMode>
 			<ProfileLoading isLoading={appState.loading} user={appState.user} />

@@ -51,7 +51,7 @@ exports.getPixelBoards = async () => {
   let pixelBoard;
 
 	try {
-			pixelBoard = await db.collection('pixelBoard')
+			pixelBoard = await db.collection('pixelBoards')
 				.find()
         .toArray();
 		if(!pixelBoard){
@@ -206,7 +206,7 @@ exports.getPixelBoardsByAuteur = async (auteur) => {
 	try {
 		let query = { "auteur": auteur };
 
-			users = await db.collection('pixelBoard')
+			users = await db.collection('pixelBoards')
 				.find(query)
         .toArray();
 		if(!users){

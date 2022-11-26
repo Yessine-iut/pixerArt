@@ -43,7 +43,6 @@ app.get('/api/user/:username', (req, res) => {
 			res.send(JSON.stringify(data));
 		});
 });
-
 app.get('/api/pixelBoardsByAuteur/:auteur', (req, res) => {
 	var auteur = req.params.auteur;
 	mongoDBModule.getPixelBoardsByAuteur(auteur)
@@ -139,7 +138,7 @@ app.post(
               const body = { _id: user._id, email: user.email };
               const token = jwt.sign({ user: body }, 'TOP_SECRET');
 
-              return res.json({ token });
+              return res.json({ token,user });
             }
           );
         } catch (error) {

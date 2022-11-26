@@ -6,7 +6,7 @@ import useLocalStorage from '../lib/useLocalStorage';
 export const BoardProfile = ({ board}) => {
 	const storageMode = useLocalStorage('darkmode')[0];
 	return (
-		<Card className={`BoardProfile ${storageMode ? 'dark' : 'light'}`} style={{ height: '20rem', width: '20rem' }}>
+		<Card className={`BoardProfile ${storageMode}`} style={{ height: '20rem', width: '20rem' }}>
 			<Card.Body>
 				<Card.Title>{board.titre}</Card.Title>
 				<Card.Text>

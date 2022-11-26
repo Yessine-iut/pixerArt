@@ -10,6 +10,8 @@ import { Home } from './pages/Home';
 import ProfilePage from './pages/ProfilePage';
 import {PixelBoardPage} from './pages/PixelBoardPage';
 import {Signin} from './pages/Signin';
+import {Login} from './pages/Login';
+
 
 
 
@@ -25,7 +27,7 @@ const App = () => (
 				<Route path="/pixelBoard/:boardId" element={<PixelBoardPage />}/>
 				<Route exact path="/" element={<Home />}/>
 				<Route exact path="/signin" element={<Signin />}/>
-
+				<Route exact path="/login" element={<Login />}/>
 				<Route path="*" element={<Error404 />}/>
 			</Routes>
 		</Container>

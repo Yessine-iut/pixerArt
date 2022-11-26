@@ -17,9 +17,10 @@ const Profile = ({user}) => {
 	let content =  <p>Aucun utilisateur trouvé</p>;	
 	const handleChangeMode = useCallback(
 		(e) => {
-			const modeValue = !!e.target.checked;
+			//const modeValue = !!e.target.checked;
 			//setDarkMode(modeValue);
-			setStorageMode(modeValue);
+			if(e.target.checked) setStorageMode("dark"); else setStorageMode("light");
+
 		},
 		[setStorageMode],
 	);
@@ -32,12 +33,12 @@ const Profile = ({user}) => {
 	if (user!=null) 
 	content = <><ProfileCard user={user} contributions={contributions} handleClick={contributionsHandler}/><BoardList boards={user.boards}/></>
 	return (
-		<><NavPixer user={user} /><div className={`Profile ${storageMode ? 'dark' : 'light'}`}>
+		<><NavPixer/><div className={`Profile ${storageMode}`}>
 			<div className="container">
 				<section className="track-section">
 					<ToggleModeNight
 						onChange={handleChangeMode}
-						mode={storageMode} />
+						mode={storageMode==='dark'} />
 					<header className="Profile-header">
 						<h1>Votre profile</h1>
 					</header>

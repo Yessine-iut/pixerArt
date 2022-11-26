@@ -7,19 +7,24 @@ import { request } from '../lib/request';
 import { NavPixer } from '../components/NavPixer';
 import './Signin.scss';
 import useLocalStorage from '../lib/useLocalStorage';
+import useSessionStorage from '../lib/useSessionStorage';
+import {
+	useNavigate
+} from 'react-router-dom';
 
 
+export const Login = () => {
+	const [storageMode,setStorageMode] = useLocalStorage('darkmode');
+    const navigate = useNavigate();
+    const token = useSessionStorage('token')[1];
+    const userData = useSessionStorage('user')[1];
 
-export const Signin = () => {
-	const storageMode = useLocalStorage('darkmode')[0];
 	const [success, setSuccess] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
 	const [user, setUser] = useState({
 		"username": '',
-		"password": '',
-		"role": 'client',
-		"theme": 'dark'
+		"password": ''
 	});
 
 	const handleChange = (e) => {
@@ -32,7 +37,6 @@ export const Signin = () => {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(user)
 		if (user.username === '')
 			setError({ message: "Champ username requis" })
 		else if (user.password === '')
@@ -43,8 +47,14 @@ export const Signin = () => {
 				setLoading(true);
 				setError(false);
 
-				await request.post('http://localhost:8080/signup', user)
-					.then((resp) => resp.data);
+				await request.post('http://localhost:8080/login', user)
+					.then((resp) => {
+                        token(resp.data.token);
+                        userData(resp.data.user);
+                        setStorageMode(resp.data.user.theme)
+                        navigate('/');
+                    }
+                    );
 				setSuccess(true);
 			} catch (err) {
 				setError(err);
@@ -57,8 +67,8 @@ export const Signin = () => {
 	return (
 		<React.StrictMode>
 			<Row tag="section" className = {`Signsection ${storageMode}`}>
-				<NavPixer />
-					<h1>Sign in</h1>
+				<NavPixer/>
+					<h1>Login</h1>
 					<Form onSubmit={handleSubmit} className="Signin  align-items-start">
 						<FormGroup className="d-flex flex-column align-items-start">
 							<Label htmlFor="username">Username</Label>
@@ -67,20 +77,6 @@ export const Signin = () => {
 						<FormGroup className="d-flex flex-column align-items-start">
 							<Label htmlFor="password">Password</Label>
 							<Input type="password" name="password" onChange={handleChange} placeholder="password" />
-						</FormGroup>
-						<FormGroup className="d-flex flex-column align-items-start">
-							<Label htmlFor="role">Role</Label>
-							<Input type="select" name="role" onChange={handleChange} >
-								<option>client</option>
-								<option>admin</option>
-							</Input>
-						</FormGroup>
-						<FormGroup className="d-flex flex-column align-items-start">
-							<Label htmlFor="role">Theme</Label>
-							<Input type="select" name="theme" onChange={handleChange} >
-								<option>dark</option>
-								<option>light</option>
-							</Input>
 						</FormGroup>
 						<div className="d-flex flex-row align-items-center justify-content-between w-100">
 							{error && <Alert color="danger" className="mb-0 py-2">{error.message}</Alert>}

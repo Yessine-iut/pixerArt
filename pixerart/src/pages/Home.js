@@ -5,10 +5,9 @@ import {NavPixer} from '../components/NavPixer';
 
 
 export const Home = () => {
-
 	return (
 		<React.StrictMode>
-			<NavPixer user={null} />
+			<NavPixer/>
 			<Row>
 				<Col>
 					<h1>Home</h1>

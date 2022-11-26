@@ -8,7 +8,7 @@ export const ProfileCard =({ user,contributions,handleClick}) => {
   const storageMode = useLocalStorage('darkmode')[0];
 
   return (
-    <Card  className={`ProfileCard ${storageMode ? 'dark' : 'light'}`} style={{ float:'left',width: '20rem' }}>
+    <Card  className={`ProfileCard ${storageMode}`} style={{ float:'left',width: '20rem' }}>
       <Card.Img variant="top" style={{ width: '20rem' }} src="https://picsum.photos/150/150" />
       <Card.Body>
         <Card.Title>{user.username}</Card.Title>

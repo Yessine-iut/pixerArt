@@ -9,7 +9,7 @@ export const PixelBoardPage = ({pixelBoard}) => {
 
 	return (
 		<React.StrictMode>
-			<NavPixer user={null} />
+			<NavPixer/>
 			<Row>
 				<Col>
 					<h1>PixelBoard</h1>
