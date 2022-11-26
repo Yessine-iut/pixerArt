@@ -2,9 +2,9 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser'); // parser middleware
-const session = require('express-session');  // session middleware
+//const session = require('express-session');  // session middleware
 const passport = require('passport');  // authentication
-const connectEnsureLogin = require('connect-ensure-login'); //authorization
+//const connectEnsureLogin = require('connect-ensure-login'); //authorization
 const User = require('./user.js'); // User Model 
 //var url = 'mongodb://localhost:27017/test';
 

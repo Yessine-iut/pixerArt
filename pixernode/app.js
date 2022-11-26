@@ -5,9 +5,9 @@ const server = require('http').Server(app);
 // pour les formulaires multiparts
 var multer = require('multer');
 var multerData = multer();
-
+const passport = require('passport');
 const mongoDBModule = require('./connectToMongoDb');
-
+const jwt = require('jsonwebtoken');
 // Pour les formulaires standards
 const bodyParser = require('body-parser');
 // pour les formulaires multiparts
@@ -47,9 +47,6 @@ console.log("Serveur lancé sur le port : " + port);
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/public/index.html');
 });
-
-
-
 // Ici des routes en :
 // http GET (pour récupérer des données)
 // http POST : pour insérer des données
@@ -177,6 +174,55 @@ app.delete('/api/pixelBoard/:id', (req, res) => {
 			res.send(JSON.stringify(data));
 		});
 })
+// ...
+
+const router = express.Router();
+
+// ...
+app.post(
+	'/signup',
+	passport.authenticate('signup', { session: false }),
+	async (req, res, next) => {
+	  res.json({
+		message: 'Signup successful',
+		user: req.user
+	  });
+	}
+  );
+  
+app.post(
+  '/login',
+  async (req, res, next) => {
+    passport.authenticate(
+      'login',
+      async (err, user, info) => {
+        try {
+          if (err || !user) {
+            const error = new Error('An error occurred.');
+
+            return next(error);
+          }
+
+          req.login(
+            user,
+            { session: false },
+            async (error) => {
+              if (error) return next(error);
+
+              const body = { _id: user._id, email: user.email };
+              const token = jwt.sign({ user: body }, 'TOP_SECRET');
+
+              return res.json({ token });
+            }
+          );
+        } catch (error) {
+          return next(error);
+        }
+      }
+    )(req, res, next);
+  }
+);
+
 
 
 
