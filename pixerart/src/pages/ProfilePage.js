@@ -15,14 +15,19 @@ function ProfilePage() {
 	useEffect(() => {
 		setAppState({ loading: true });
 		if(user!=null){
-			const apiUrlBoards = 'http://localhost:8080/api/pixelBoardsByAuteur/'+user.username;
-			axios.get(apiUrlBoards).then((boardsapi) => {
-				user.boards = boardsapi.data.data;
+			if(user.role==='admin'){
+				const apiUrlBoards = 'http://localhost:8080/api/pixelBoards/';
+				axios.get(apiUrlBoards).then((boardsapi) => {
+					user.boards = boardsapi.data.data;
+					setAppState({ loading: false, user: user });
+				  });
+			  }
+			  else 
+			  setAppState({ loading: false, user: user });
+			}else{
 				setAppState({ loading: false, user: user });
-			  });
-		  }
-		  else 
-		  setAppState({ loading: false, user: user });
+			}
+		
 	  }, [setAppState, user,token]);
 	return (
 		<React.StrictMode>

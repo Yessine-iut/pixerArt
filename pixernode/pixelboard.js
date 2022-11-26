@@ -17,13 +17,13 @@ const pixelBoard = new Schema({
   mode:String,
   delai:Number,
   titre:String,
-  pixels:{position:{
+  pixels:[{position:{
             x:Number,
             y:Number
             },
             couleur:String,
             auteur:String
-}
+}]
 });
 
 module.exports = mongoose.model('pixelBoard', pixelBoard, 'pixelBoards');

@@ -23,7 +23,7 @@ export const NavPixer = () => {
         };
     function IsLoggedIn(user) {
         let res;
-        if (user.user !== null) {
+        if (user.user !== null && user.user !== undefined) {
             res = <><Button onClick={logout} variant="outline-danger">Logout</Button>
             <Navbar.Text className={`ProfileCard ${storageMode}`}>
                 &nbsp;Signed in as: <a className={`ProfileCard ${storageMode}`} href="/profile">{user.user.username}</a>
@@ -32,11 +32,20 @@ export const NavPixer = () => {
         else res = <Nav> <Button href="/signin" variant="outline-primary">Sign in</Button>{' '}<Button variant="outline-success" href="/login">Login</Button></Nav>
         return res
     }
+    let adminRender=<></>
+    if (user!== null && user !== undefined) {
+
+    if(user.role==="admin"){
+        adminRender= <Nav.Link href="/pixelBoardCreate">&nbsp;&nbsp;Creer pixelBoard</Nav.Link>
+    }
+}
+
     return (
         <Navbar className={`NavPixer ${storageMode}`}>
             <Container>
                 <Navbar.Brand className={`ProfileCard ${storageMode}`} href="/">PixerArt</Navbar.Brand>
                 <Nav.Link href="/">Home</Nav.Link>
+                {adminRender}
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
                     <IsLoggedIn user={user} />

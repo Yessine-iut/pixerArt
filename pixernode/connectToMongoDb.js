@@ -275,7 +275,7 @@ exports.createPixelBoard = async (formData) => {
 			auteur: formData.auteur,
       mode:formData.mode,
       delai:formData.delai,
-      title:formData.title,
+      titre:formData.titre,
       pixels:formData.pixels
 		};
 		await db.collection("pixelBoards").insertOne(toInsert);

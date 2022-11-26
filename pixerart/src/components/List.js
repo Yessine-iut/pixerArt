@@ -4,7 +4,7 @@ import './List.scss';
 
 export const BoardList = ({ boards }) => (
 	<>
-	<h1>Vos pixelBoards</h1>
+	<h1>Les pixelBoards</h1>
 	<div className="BoardList">
 		<ul>
 			{(boards || []).map((t) => (

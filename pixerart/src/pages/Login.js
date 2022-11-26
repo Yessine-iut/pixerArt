@@ -87,7 +87,7 @@ export const Login = () => {
 								color="primary"
 								type="submit"
 							>
-								{loading ? 'loading' : 'Créer'}
+								{loading ? 'loading' : 'Connectez-vous'}
 							</Button>
 						</div>
 					</Form>
