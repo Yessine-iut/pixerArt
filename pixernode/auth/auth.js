@@ -1,17 +1,21 @@
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
-const UserModel = require('../model/model');
+const UserModel = require('../user');
+const JWTstrategy = require('passport-jwt').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
 passport.use(
     'signup',
     new localStrategy(
       {
-        usernameField: 'email',
-        passwordField: 'password'
+        usernameField: 'username',
+        passwordField: 'password',
+        passReqToCallback : true,
       },
-      async (email, password, done) => {
+      async (req,username, password, done) => {
         try {
-          const user = await UserModel.create({ email, password });
-  
+          let role = req.body.role;
+          let theme = req.body.theme;
+          const user = await UserModel.create({ username, password,role,theme });
           return done(null, user);
         } catch (error) {
           done(error);
@@ -19,19 +23,16 @@ passport.use(
       }
     )
   );
-
-  // ...
-
 passport.use(
     'login',
     new localStrategy(
       {
-        usernameField: 'email',
+        usernameField: 'username',
         passwordField: 'password'
       },
-      async (email, password, done) => {
+      async (username, password, done) => {
         try {
-          const user = await UserModel.findOne({ email });
+          const user = await UserModel.findOne({ username });
   
           if (!user) {
             return done(null, false, { message: 'User not found' });
@@ -46,6 +47,21 @@ passport.use(
           return done(null, user, { message: 'Logged in Successfully' });
         } catch (error) {
           return done(error);
+        }
+      }
+    )
+  );
+  passport.use(
+    new JWTstrategy(
+      {
+        secretOrKey: 'TOP_SECRET',
+        jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
+      },
+      async (token, done) => {
+        try {
+          return done(null, token.user);
+        } catch (error) {
+          done(error);
         }
       }
     )

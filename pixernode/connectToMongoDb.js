@@ -1,53 +1,21 @@
-var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
 const mongoose = require("mongoose");
-const bodyParser = require('body-parser'); // parser middleware
-//const session = require('express-session');  // session middleware
-const passport = require('passport');  // authentication
-//const connectEnsureLogin = require('connect-ensure-login'); //authorization
-const User = require('./user.js'); // User Model 
-//var url = 'mongodb://localhost:27017/test';
-
 // Connection URL
-const url = 'mongodb://localhost:27017';
-const url2 = 'mongodb://localhost:27017/pixerart';
-//const mongoDB = "mongodb://127.0.0.1/my_database";
-
-// Database Name
-//const dbName = 'pixerart';
-
-/*exports.connexionMongo = async () => {
-	let client = await MongoClient.connect(url, { useNewUrlParser: true });
-	let db = client.db(dbName);
-	return db;
-}*/
+const url = 'mongodb://localhost:27017/pixerart';
 exports.connexionMongo = async () => {
-	mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 	return db;
 }
-
-/*exports.createUser = async () => {
-	const awesome_instance = new User({ username: "awesome",mdp:"test",role:"test",theme:"test" });
-
-// Save the new model instance, passing a callback
-awesome_instance.save((err) => {
-  if (err) return handleError(err);
-  // saved!
-});
-}*/
 exports.getUsers = async () => {
-	//let client = await MongoClient.connect(url, { useNewUrlParser: true });
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
-	//console.log(client)
-	//let db = client.db(dbName);
 	let reponse;
   let users;
 
 	try {
-			users = await db.collection('user')
+			users = await db.collection('users')
 				.find()
         .toArray();
 		if(!users){
@@ -77,9 +45,7 @@ exports.getUsers = async () => {
 };
 
 exports.getPixelBoards = async () => {
-	/*let client = await MongoClient.connect(url, { useNewUrlParser: true });
-	let db = client.db(dbName);*/
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
   let pixelBoard;
@@ -108,20 +74,19 @@ exports.getPixelBoards = async () => {
 			msg: "erreur lors du find des pixelBoards"
 		};
 	} finally {
-		//client.close();
 		return reponse;
 	}
 };
 
 exports.getUserByUsername = async (username) => {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
 
 	try {
 		let myquery = { "username": username };
 
-		let data = await db.collection("user").findOne(myquery);
+		let data = await db.collection("users").findOne(myquery);
 		if(!data){
 			reponse = {
 				succes: false,
@@ -150,14 +115,14 @@ exports.getUserByUsername = async (username) => {
 }
 
 exports.login = async (username,password) => {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
 
 	try {
 		let myquery = { "username": username};
 
-		let data = await db.collection("user").findOne(myquery);
+		let data = await db.collection("users").findOne(myquery);
 		const hash = await bcrypt.hash(password, 10)
 		if(!data){
 			reponse = {
@@ -167,7 +132,7 @@ exports.login = async (username,password) => {
 				msg: "aucun user"
 			};
 		}else{
-			if(data.mdp==hash){
+			if(data.password==hash){
 				reponse = {
 					succes: false,
 					login: true,
@@ -196,14 +161,14 @@ exports.login = async (username,password) => {
 }
 
 exports.getPixelBoardById = async (id) => {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
 
 	try {
 		let myquery = { "_id": ObjectId(id) };
 
-		let data = await db.collection("pixelBoard").findOne(myquery);
+		let data = await db.collection("pixelBoards").findOne(myquery);
 		if(!data){
 			reponse = {
 				succes: true,
@@ -232,7 +197,7 @@ exports.getPixelBoardById = async (id) => {
 }
 
 exports.getPixelBoardsByAuteur = async (auteur) => {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
   let users;
@@ -270,18 +235,18 @@ exports.getPixelBoardsByAuteur = async (auteur) => {
 };
 
 exports.createUser = async (formData) => {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
-	const hash = await bcrypt.hash(formData.mdp, 10)
+	const hash = await bcrypt.hash(formData.password, 10)
 	try {
 		let toInsert = {
 			username: formData.username,
-			mdp: hash,
+			password: hash,
 			role: formData.role,
       theme:formData.theme
 		};
-		await db.collection("user").insertOne(toInsert);
+		await db.collection("users").insertOne(toInsert);
 		reponse = {
 			succes: true,
 			result: toInsert._id,
@@ -299,7 +264,7 @@ exports.createUser = async (formData) => {
 }
 //TODO A améliorer
 exports.createPixelBoard = async (formData) => {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
 	try {
@@ -313,7 +278,7 @@ exports.createPixelBoard = async (formData) => {
       title:formData.title,
       pixels:formData.pixels
 		};
-		await db.collection("pixelBoard").insertOne(toInsert);
+		await db.collection("pixelBoards").insertOne(toInsert);
 		reponse = {
 			succes: true,
 			result: toInsert._id,
@@ -332,7 +297,7 @@ exports.createPixelBoard = async (formData) => {
 
 //TODO A améliorer?
 exports.updateUser = async (id, formData) => {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
 
@@ -340,11 +305,11 @@ exports.updateUser = async (id, formData) => {
 		let myquery = { "_id": ObjectId(id) };
 		let newvalues = {
 			$set: {
-				mdp: formData.mdp,
+				password: formData.password,
 				theme: formData.theme
 			}
 		};
-		let result = await db.collection("user").updateOne(myquery, newvalues);
+		let result = await db.collection("users").updateOne(myquery, newvalues);
 
 		reponse = {
 			succes: true,
@@ -366,7 +331,7 @@ exports.updateUser = async (id, formData) => {
 
 //TODO A améliorer
 exports.updatePixelBoard = async (id, formData) => {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
 
@@ -374,11 +339,11 @@ exports.updatePixelBoard = async (id, formData) => {
 		let myquery = { "_id": ObjectId(id) };
 		let newvalues = {
 			$set: {
-				mdp: formData.mdp,
+				password: formData.password,
 				theme: formData.theme
 			}
 		};
-		let result = await db.collection("pixelBoard").updateOne(myquery, newvalues);
+		let result = await db.collection("pixelBoards").updateOne(myquery, newvalues);
 
 		reponse = {
 			succes: true,
@@ -399,14 +364,14 @@ exports.updatePixelBoard = async (id, formData) => {
 }
 
 exports.deleteUser = async function (id, callback) {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
 
 	try {
 		let myquery = { "_id": ObjectId(id) };
 
-		let result = await db.collection("user")
+		let result = await db.collection("users")
 			.deleteOne(myquery);
 		reponse = {
 			succes: true,
@@ -427,14 +392,14 @@ exports.deleteUser = async function (id, callback) {
 }
 
 exports.deletePixelBoard = async function (id, callback) {
-	await mongoose.connect(url2, { useNewUrlParser: true, useUnifiedTopology: true });
+	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
 
 	try {
 		let myquery = { "_id": ObjectId(id) };
 
-		let result = await db.collection("pixelBoard")
+		let result = await db.collection("pixelBoards")
 			.deleteOne(myquery);
 		reponse = {
 			succes: true,

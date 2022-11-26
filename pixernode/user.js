@@ -1,6 +1,7 @@
 // dependencies
 const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
+const bcrypt = require('bcrypt');
 // connect to database
 mongoose.connect('mongodb://localhost/pixerart',{
   useNewUrlParser: true,
@@ -8,12 +9,24 @@ mongoose.connect('mongodb://localhost/pixerart',{
 });
 // Create Model
 const Schema = mongoose.Schema;
-
 const User = new Schema({
-  username: String,
-  password: String,
-  role:String,
-  theme:String
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  role: {
+    type: String,
+    required: true
+  },
+  theme: {
+    type: String,
+    required: true
+  },
 });
 User.pre(
   'save',
@@ -35,4 +48,4 @@ User.methods.isValidPassword = async function(password) {
 // Export Model
 User.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('users', User, 'userData');
+module.exports = mongoose.model('users', User, 'users');

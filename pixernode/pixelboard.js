@@ -26,4 +26,4 @@ const pixelBoard = new Schema({
 }
 });
 
-module.exports = mongoose.model('pixelBoard', pixelBoard, 'userData2');
+module.exports = mongoose.model('pixelBoard', pixelBoard, 'pixelBoards');
