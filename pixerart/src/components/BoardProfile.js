@@ -2,6 +2,7 @@ import './BoardProfile.scss';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import useLocalStorage from '../lib/useLocalStorage';
+import Button from 'react-bootstrap/esm/Button';
 
 export const BoardProfile = ({ board}) => {
 	const storageMode = useLocalStorage('darkmode')[0];
@@ -14,6 +15,8 @@ export const BoardProfile = ({ board}) => {
 					{board.dateFin ? "Il s'est terminé le"+board.dateFin: "Il est en cours."}
 				</Card.Text>
 				<Link to={`/pixelBoardEdit?id=${board._id}`}>Editer board</Link>
+				<br/>
+				<Button href={`pixelBoard?id=${board._id}`}>Visualiser Board</Button>
 			</Card.Body>
 		</Card>
 	);

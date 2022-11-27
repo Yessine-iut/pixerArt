@@ -98,6 +98,14 @@ app.put('/api/pixelBoard/:id', multerData.fields([]), (req, res) => {
 			res.send(JSON.stringify(data));
 		});
 });
+app.use('/api/addPixel/:id', passport.authenticate('jwt', { session: false }), secureRoute);
+app.put('/api/addPixel/:id', multerData.fields([]), (req, res) => {
+	var id = req.params.id;
+	mongoDBModule.addPixel(id, req.body)
+		.then(data => {
+			res.send(JSON.stringify(data));
+		});
+});
 app.delete('/api/pixelBoard/:id', (req, res) => {
 	var id = req.params.id;
 	mongoDBModule.deleteUser(id)
