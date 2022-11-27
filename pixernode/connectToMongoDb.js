@@ -172,14 +172,14 @@ exports.getPixelBoardById = async (id) => {
 		if(!data){
 			reponse = {
 				succes: true,
-				user: null,
+				pixelBoard: null,
 				error: null,
 				msg: "Aucun PixelBoard trouvé"
 			};
 		}else{
 			reponse = {
 				succes: true,
-				user: data,
+				pixelBoard: data,
 				error: null,
 				msg: "PixelBoard trouvé"
 			};
@@ -187,7 +187,7 @@ exports.getPixelBoardById = async (id) => {
 	} catch (err) {
 		reponse = {
 			succes: false,
-			user: null,
+			pixelBoard: null,
 			error: err,
 			msg: "PixelBoard introuvable"
 		};
@@ -200,26 +200,24 @@ exports.getPixelBoardsByAuteur = async (auteur) => {
 	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
-  let users;
-  console.log("mongoDbConnect "+auteur)
-
+  	let pixelBoards;
 	try {
 		let query = { "auteur": auteur };
 
-			users = await db.collection('pixelBoards')
+			pixelBoards = await db.collection('pixelBoards')
 				.find(query)
         .toArray();
-		if(!users){
+		if(!pixelBoards){
 			reponse = {
 				succes: true,
 				msg: "pixelBoard find avec succès",
-				data: users,
+				data: pixelBoards,
 			  }
 		}else{
 			reponse = {
 				succes: true,
 				msg: "pixelBoard find avec succès",
-				data: users,
+				data: pixelBoards,
 			  }
 		}
 		}
@@ -271,12 +269,13 @@ exports.createPixelBoard = async (formData) => {
 		let toInsert = {
 			statut: formData.statut,
 			dateCreation: formData.dateCreation,
-      taille:formData.taille,
+			dateFin: formData.dateFin,
+      		taille:formData.taille,
 			auteur: formData.auteur,
-      mode:formData.mode,
-      delai:formData.delai,
-      titre:formData.titre,
-      pixels:formData.pixels
+      		mode:formData.mode,
+      		delai:formData.delai,
+      		titre:formData.titre,
+      		pixels:formData.pixels
 		};
 		await db.collection("pixelBoards").insertOne(toInsert);
 		reponse = {
@@ -334,13 +333,19 @@ exports.updatePixelBoard = async (id, formData) => {
 	await mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 	const db = mongoose.connection;
 	let reponse;
-
 	try {
 		let myquery = { "_id": ObjectId(id) };
 		let newvalues = {
 			$set: {
-				password: formData.password,
-				theme: formData.theme
+				statut: formData.statut,
+				dateCreation: formData.dateCreation,
+				dateFin: formData.dateFin,
+      			taille:formData.taille,
+				auteur: formData.auteur,
+      			mode:formData.mode,
+      			delai:formData.delai,
+      			titre:formData.titre,
+      			pixels:formData.pixels
 			}
 		};
 		let result = await db.collection("pixelBoards").updateOne(myquery, newvalues);
@@ -352,6 +357,7 @@ exports.updatePixelBoard = async (id, formData) => {
 			msg: "Modification réussie " + result
 		};
 	} catch (err) {
+		console.log(err)
 		reponse = {
 			succes: false,
 			error: err,

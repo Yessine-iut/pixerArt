@@ -13,7 +13,7 @@ export const BoardProfile = ({ board}) => {
 					Ce board a été crée le {board.dateCreation}.<br/>
 					{board.dateFin ? "Il s'est terminé le"+board.dateFin: "Il est en cours."}
 				</Card.Text>
-				<Link to={`/pixelBoard/${board._id}`}>Editer board</Link>
+				<Link to={`/pixelBoardEdit?id=${board._id}`}>Editer board</Link>
 			</Card.Body>
 		</Card>
 	);

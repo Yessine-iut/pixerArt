@@ -25,7 +25,8 @@ const User = new Schema({
   },
   theme: {
     type: String,
-    required: true
+    required: true,
+    enum:["light", "dark"]
   },
 });
 User.pre(

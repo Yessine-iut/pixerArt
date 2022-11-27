@@ -72,7 +72,7 @@ export const Login = () => {
 					<Form onSubmit={handleSubmit} className="Signin  align-items-start">
 						<FormGroup className="d-flex flex-column align-items-start">
 							<Label htmlFor="username">Username</Label>
-							<Input name="username" value={user.username} onChange={handleChange} placeholder="Toto" />
+							<Input name="username" value={user.username} onChange={handleChange} placeholder="usernames" />
 						</FormGroup>
 						<FormGroup className="d-flex flex-column align-items-start">
 							<Label htmlFor="password">Password</Label>

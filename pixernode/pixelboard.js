@@ -9,15 +9,40 @@ mongoose.connect('mongodb://localhost/pixerart',{
 const Schema = mongoose.Schema;
 
 const pixelBoard = new Schema({
-  statut: Boolean,
-  dateCreation: Date,
-  dateFin:Date,
-  taille:{width:Number,height:Number},
-  auteur:String,
+  statut: {
+    type:Boolean,
+    required:true
+  },
+  dateCreation: {
+    type:String,
+    required:true
+  },
+  dateFin:{
+    type:String,
+    required:true
+  },
+  taille:{
+    width:{
+      type:Number,
+      required:true
+    },
+    height:{
+      type:Number,
+      required:true
+    },
+  },
+  auteur:{
+    type:String,
+    required:true
+  },
   mode:String,
   delai:Number,
-  titre:String,
-  pixels:[{position:{
+  titre:{
+    type:String,
+    required:true
+  },
+  pixels:[{
+    position:{
             x:Number,
             y:Number
             },

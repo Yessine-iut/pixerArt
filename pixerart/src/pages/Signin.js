@@ -32,7 +32,6 @@ export const Signin = () => {
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log(user)
 		if (user.username === '')
 			setError({ message: "Champ username requis" })
 		else if (user.password === '')
