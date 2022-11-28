@@ -1,7 +1,7 @@
 var ObjectId = require("mongodb").ObjectID;
 const mongoose = require("mongoose");
 // Connection URL
-const url = "mongodb://localhost:27017/pixerart";
+const url = "mongodb://database:27017/pixerart";
 exports.connexionMongo = async () => {
   mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
   const db = mongoose.connection;

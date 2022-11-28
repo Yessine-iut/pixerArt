@@ -1,7 +1,7 @@
 // dependencies
 const mongoose = require('mongoose');
 // connect to database
-mongoose.connect('mongodb://localhost/pixerart',{
+mongoose.connect('mongodb://database/pixerart',{
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

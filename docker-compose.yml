@@ -1,0 +1,51 @@
+version: "2"
+services:
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: pixerart
+    ports:
+      - 27017:27017
+      - 9229:9229
+
+  pixerart:
+    #front
+    container_name: pixerart
+    build: ./pixerart/ 
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app/pixerart/ 
+      - /usr/src/app/pixerart/node_modules
+    environment:
+      - PORT=3000
+    depends_on:
+      - pixernode
+
+  pixernode:
+    #back
+    container_name: pixernode
+    build: ./pixernode/ 
+    ports:
+      - 8080:8080 
+    volumes:
+      - ./:/usr/src/app/pixernode/ 
+      - /usr/src/app/pixernode/node_modules
+    environment:
+      - PORT=8080
+    depends_on:
+      - mongodb
+    links:
+      - mongodb:database
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - 8111:8081
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
