@@ -25,22 +25,12 @@ PixelBoard:
 		    }
 
 # Lancer le projet 
-## Lancer la base de données dockerizée
+Un docker-compose.yml permet de construire et démarrer:
+- le frontend (pixerart) sur le port 3000,
+- le backend (pixernode) sur le port 8080,
+- le mongo database sur le port 27017,
+- un mongo express sur le port 8111.
+Pour les lancer, faites : 
 ```bash
-cd pixernode
 sudo docker compose up
-```
-
-## Lancer le backend
-```bash
-cd pixernode
-npm i
-node app.js
-```
-
-## Lancer le frontend
-```bash
-cd pixerart
-npm i
-npm start
 ```
