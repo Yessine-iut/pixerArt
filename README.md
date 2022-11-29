@@ -32,5 +32,5 @@ Un docker-compose.yml permet de construire et démarrer:
 - un mongo express sur le port 8111.
 Pour les lancer, faites : 
 ```bash
-sudo docker compose up
+sudo docker compose up --build
 ```

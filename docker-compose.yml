@@ -19,7 +19,7 @@ services:
       - 3000:3000
     volumes:
       - ./:/usr/src/app/pixerart/ 
-      - /usr/src/app/pixerart/node_modules
+    #  - /usr/src/app/pixerart/node_modules
     environment:
       - PORT=3000
     depends_on:
@@ -33,7 +33,7 @@ services:
       - 8080:8080 
     volumes:
       - ./:/usr/src/app/pixernode/ 
-      - /usr/src/app/pixernode/node_modules
+    #  - /usr/src/app/pixernode/node_modules
     environment:
       - PORT=8080
     depends_on:
