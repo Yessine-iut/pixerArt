@@ -1,7 +1,12 @@
 .App {
   text-align: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
 }
-
+.App + div:first-child{
+  padding:0;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +40,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
 }

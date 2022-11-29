@@ -2,7 +2,6 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import useLocalStorage from '../lib/useLocalStorage';
 
-import './ProfileCard.scss';
 
 export const ProfileCard =({ user,contributions,handleClick}) => {
   const storageMode = useLocalStorage('darkmode')[0];
