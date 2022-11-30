@@ -10,7 +10,7 @@ import useLocalStorage from '../lib/useLocalStorage';
 
 
 
-export const Signin = () => {
+export const Register = () => {
 	const storageMode = useLocalStorage('darkmode')[0];
 	const [success, setSuccess] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -30,6 +30,7 @@ export const Signin = () => {
 			[name]: value,
 		}));
 	};
+	const sleep = ms => new Promise(r => setTimeout(r, ms));
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (user.username === '')
@@ -45,6 +46,8 @@ export const Signin = () => {
 				await request.post('http://localhost:8080/signup', user)
 					.then((resp) => resp.data);
 				setSuccess(true);
+				await sleep(800);
+				window.location.href='/login';
 			} catch (err) {
 				setError(err);
 			} finally {
@@ -54,10 +57,9 @@ export const Signin = () => {
 	};
 
 	return (
-		<React.StrictMode>
 			<Row tag="section" className = {`Signsection ${storageMode}`}>
 				<NavPixer />
-					<h1>Sign in</h1>
+					<h1>Create an account</h1>
 					<Form onSubmit={handleSubmit} className="Signin  align-items-start">
 						<FormGroup className="d-flex flex-column align-items-start">
 							<Label htmlFor="username">Username</Label>
@@ -96,6 +98,5 @@ export const Signin = () => {
 					</Form>
 
 			</Row>
-		</React.StrictMode>
 	);
 };

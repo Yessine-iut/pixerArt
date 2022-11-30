@@ -14,10 +14,10 @@ import {
 
 
 export const Login = () => {
-	const [storageMode,setStorageMode] = useLocalStorage('darkmode');
-    const navigate = useNavigate();
-    const token = useSessionStorage('token')[1];
-    const userData = useSessionStorage('user')[1];
+	const [storageMode, setStorageMode] = useLocalStorage('darkmode');
+	const navigate = useNavigate();
+	const token = useSessionStorage('token')[1];
+	const userData = useSessionStorage('user')[1];
 
 	const [success, setSuccess] = useState(false);
 	const [loading, setLoading] = useState(false);
@@ -49,12 +49,12 @@ export const Login = () => {
 
 				await request.post('http://localhost:8080/login', user)
 					.then((resp) => {
-                        token(resp.data.token);
-                        userData(resp.data.user);
-                        setStorageMode(resp.data.user.theme)
-                        navigate('/');
-                    }
-                    );
+						token(resp.data.token);
+						userData(resp.data.user);
+						setStorageMode(resp.data.user.theme)
+						navigate('/');
+					}
+					);
 				setSuccess(true);
 			} catch (err) {
 				setError(err);
@@ -65,34 +65,32 @@ export const Login = () => {
 	};
 
 	return (
-		<React.StrictMode>
-			<Row tag="section" className = {`Signsection ${storageMode}`}>
-				<NavPixer/>
-					<h1>Login</h1>
-					<Form onSubmit={handleSubmit} className="Signin  align-items-start">
-						<FormGroup className="d-flex flex-column align-items-start">
-							<Label htmlFor="username">Username</Label>
-							<Input name="username" value={user.username} onChange={handleChange} placeholder="usernames" />
-						</FormGroup>
-						<FormGroup className="d-flex flex-column align-items-start">
-							<Label htmlFor="password">Password</Label>
-							<Input type="password" name="password" onChange={handleChange} placeholder="password" />
-						</FormGroup>
-						<div className="d-flex flex-row align-items-center justify-content-between w-100">
-							{error && <Alert color="danger" className="mb-0 py-2">{error.message}</Alert>}
-							{success && <Alert color="success" className="mb-0 py-2">Success!</Alert>}
-							<Button
-								className="ms-auto"
-								disabled={loading}
-								color="primary"
-								type="submit"
-							>
-								{loading ? 'loading' : 'Connectez-vous'}
-							</Button>
-						</div>
-					</Form>
+		<Row tag="section" className={`Signsection ${storageMode}`}>
+			<NavPixer />
+			<h1>Login</h1>
+			<Form onSubmit={handleSubmit} className="Signin  align-items-start">
+				<FormGroup className="d-flex flex-column align-items-start">
+					<Label htmlFor="username">Username</Label>
+					<Input name="username" value={user.username} onChange={handleChange} placeholder="usernames" />
+				</FormGroup>
+				<FormGroup className="d-flex flex-column align-items-start">
+					<Label htmlFor="password">Password</Label>
+					<Input type="password" name="password" onChange={handleChange} placeholder="password" />
+				</FormGroup>
+				<div className="d-flex flex-row align-items-center justify-content-between w-100">
+					{error && <Alert color="danger" className="mb-0 py-2">{error.message}</Alert>}
+					{success && <Alert color="success" className="mb-0 py-2">Success!</Alert>}
+					<Button
+						className="ms-auto"
+						disabled={loading}
+						color="primary"
+						type="submit"
+					>
+						{loading ? 'loading' : 'Connectez-vous'}
+					</Button>
+				</div>
+			</Form>
 
-			</Row>
-		</React.StrictMode>
+		</Row>
 	);
 };

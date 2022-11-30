@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import withLoading from '../components/withLoading';
 import useSessionStorage from '../lib/useSessionStorage';
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { PixelBoardEdit } from '../components/PixelBoardEdit';
 
 function PixelBoardEditPage() {
@@ -16,27 +16,25 @@ function PixelBoardEditPage() {
 		pixelBoardEdit: null,
 	});
 	useEffect(() => {
-		let pixelBoardEdit=null;
+		let pixelBoardEdit = null;
 		setAppState({ loading: true });
-		if(user!=null){
-			if(user.role==='admin'){
-				const apiUrlBoards = 'http://localhost:8080/api/pixelBoard/'+id;
+		if (user != null) {
+			if (user.role === 'admin') {
+				const apiUrlBoards = 'http://localhost:8080/api/pixelBoard/' + id;
 				axios.get(apiUrlBoards).then((boardsapi) => {
-					pixelBoardEdit=boardsapi.data.pixelBoard;
+					pixelBoardEdit = boardsapi.data.pixelBoard;
 					setAppState({ loading: false, pixelBoardEdit: pixelBoardEdit });
-				  });
-			  }
-			  else 
-			  setAppState({ loading: false, pixelBoardEdit: pixelBoardEdit});
-			}else{
-				setAppState({ loading: false, pixelboardEdit: pixelBoardEdit });
+				});
 			}
-		
-	  }, [setAppState, user,token,id]);
+			else
+				setAppState({ loading: false, pixelBoardEdit: pixelBoardEdit });
+		} else {
+			setAppState({ loading: false, pixelboardEdit: pixelBoardEdit });
+		}
+
+	}, [setAppState, user, token, id]);
 	return (
-		<React.StrictMode>
-			<PixelBoardLoading isLoading={appState.loading} pixelBoardEdit={appState.pixelBoardEdit} />
-		</React.StrictMode>
+		<PixelBoardLoading isLoading={appState.loading} pixelBoardEdit={appState.pixelBoardEdit} />
 	);
 }
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get(
-  '/profile',
+  '/profil',
   (req, res, next) => {
     res.json({
       message: 'You made it to the secure route',

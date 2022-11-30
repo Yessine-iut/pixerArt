@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import withLoading from '../components/withLoading';
 import useSessionStorage from '../lib/useSessionStorage';
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { PixelBoard } from '../components/PixelBoard';
 
 function PixelBoardPage() {
@@ -16,23 +16,21 @@ function PixelBoardPage() {
 		pixelBoard: null,
 	});
 	useEffect(() => {
-		let pixelBoard=null;
+		let pixelBoard = null;
 		setAppState({ loading: true });
-		if(user!=null){
-				const apiUrlBoards = 'http://localhost:8080/api/pixelBoard/'+id;
-				axios.get(apiUrlBoards).then((boardsapi) => {
-					pixelBoard=boardsapi.data.pixelBoard;
-					setAppState({ loading: false, pixelBoard: pixelBoard });
-				  });
-			}else{
+		if (user != null) {
+			const apiUrlBoards = 'http://localhost:8080/api/pixelBoard/' + id;
+			axios.get(apiUrlBoards).then((boardsapi) => {
+				pixelBoard = boardsapi.data.pixelBoard;
 				setAppState({ loading: false, pixelBoard: pixelBoard });
-			}
-		
-	  }, [setAppState, user,token,id]);
+			});
+		} else {
+			setAppState({ loading: false, pixelBoard: pixelBoard });
+		}
+
+	}, [setAppState, user, token, id]);
 	return (
-		<React.StrictMode>
-			<PixelBoardLoading isLoading={appState.loading} pixelBoard={appState.pixelBoard} />
-		</React.StrictMode>
+		<PixelBoardLoading isLoading={appState.loading} pixelBoard={appState.pixelBoard} />
 	);
 }
 

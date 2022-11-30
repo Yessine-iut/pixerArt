@@ -1,4 +1,4 @@
-import { BoardProfile } from './BoardProfile';
+import { BoardProfil } from './BoardProfil';
 
 import './List.scss';
 
@@ -8,7 +8,7 @@ export const BoardList = ({ boards }) => (
 	<div className="BoardList">
 		<ul>
 			{(boards || []).map((t) => (
-				<BoardProfile board={t}/>
+				<BoardProfil board={t}/>
 			))}
 		</ul>
 	</div>

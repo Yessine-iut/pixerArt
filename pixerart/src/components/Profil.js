@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 import useLocalStorage from '../lib/useLocalStorage';
 
-import './Profile.scss';
+import './Profil.scss';
 import { NavPixer } from './NavPixer';
-import { ProfileCard } from './ProfileCard';
+import { ProfilCard } from './ProfilCard';
 import { BoardList } from './List';
 //import axios from 'axios';
 
-const Profile = ({ user }) => {
+const Profil = ({ user }) => {
 	const storageMode = useLocalStorage('darkmode')[0];
 	const [contributions, setContributions] = useState(0);
 	let content = <p>Aucun utilisateur trouvé</p>;
@@ -17,14 +17,14 @@ const Profile = ({ user }) => {
 		setContributions(contributions + 1)
 	};
 	if (user.role === 'admin')
-		content = <><ProfileCard user={user} contributions={contributions} handleClick={contributionsHandler} /><BoardList boards={user.boards} /></>
-	else content = <><ProfileCard user={user} contributions={contributions} handleClick={contributionsHandler} /></>
+		content = <><ProfilCard user={user} contributions={contributions} handleClick={contributionsHandler} /><BoardList boards={user.boards} /></>
+	else content = <><ProfilCard user={user} contributions={contributions} handleClick={contributionsHandler} /></>
 	return (
-		<><NavPixer /><div className={`Profile ${storageMode}`}>
+		<><NavPixer /><div className={`Profil ${storageMode}`}>
 			<div className="container">
 				<section className="track-section">
-					<header className="Profile-header">
-						<h1>Votre profile</h1>
+					<header className="Profil-header">
+						<h1>Votre profil</h1>
 					</header>
 					{content}
 				</section>
@@ -34,4 +34,4 @@ const Profile = ({ user }) => {
 
 };
 
-export default Profile;
+export default Profil;

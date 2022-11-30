@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import useLocalStorage from '../lib/useLocalStorage';
 import useSessionStorage from '../lib/useSessionStorage';
 import axios from 'axios';
-import { useCallback } from 'react';
+import React, { useEffect } from 'react';
 
 import {
     useNavigate
@@ -13,7 +13,7 @@ import {
     Flex,
     Link,
     useColorModeValue,
-    Stack,
+    HStack,
     Button,
     useColorMode,
 } from '@chakra-ui/react';
@@ -29,48 +29,51 @@ export const NavPixer = () => {
 
     const setStorageMode = useLocalStorage('darkmode')[1];
     const token = useSessionStorage('token')[0];
-    const handleChangeMode = useCallback(
-        (e) => {
-            if (user != null) {
-                if (colorMode === "dark") {
-                    setStorageMode("light");
-                    user.theme = 'light'
-                } else {
-                    setStorageMode("dark");
-                    user.theme = 'dark'
-                }
-                axios.put('http://localhost:8080/api/user/' + user._id + '?secret_token=' + token, user);
+
+    const handleChangeMode = () => {
+        if (user != null) {
+            if (colorMode === "dark") {
+                setStorageMode("light");
+                user.theme = 'light'
+            } else {
+                setStorageMode("dark");
+                user.theme = 'dark'
             }
-        },
-        [setStorageMode, token, user, colorMode],
-    );
+            axios.put('http://localhost:8080/api/user/' + user._id + '?secret_token=' + token, user);
+        }
+    }
     const logout = () => {
         setUser(null);
         setToken(null);
         navigate('/');
     };
 
-    if (user != null) {
-        if (colorMode !== user.theme)
-            toggleColorMode();
-    }
+    useEffect(() => {
+        if (user != null) {
+            if (colorMode !== user.theme)
+                toggleColorMode();
+        }
+    }, [colorMode, toggleColorMode, user])
 
     function IsLoggedIn(user) {
         let res;
         if (user.user !== null && user.user !== undefined) {
-            res = <><Button onClick={logout} variant="outline-danger">Logout</Button>
+            res = <><Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} onClick={logout}>Logout</Link>
                 <Navbar.Text>
-                    &nbsp;Logged in as: <a href="/profile">{user.user.username}</a>
+                    &nbsp;Logged in as: <a href="/profil">{user.user.username}</a>
                 </Navbar.Text></>
         }
-        else res = <Nav> <Nav.Link href="/signin"><Button>Register</Button></Nav.Link>{' '}<Nav.Link href="/login">Login</Nav.Link></Nav>
+        else {
+            res = <><Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/login'}>Login</Link>
+                <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/register'}>Register</Link></>
+        }
         return res
     }
     let adminRender = <></>
     if (user !== null && user !== undefined) {
 
         if (user.role === "admin") {
-            adminRender = <Button><Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/pixelBoardCreate'}>Create PixelBoard</Link></Button>
+            adminRender = <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/pixelBoardCreate'}>Create PixelBoard</Link>
         }
     }
 
@@ -78,20 +81,24 @@ export const NavPixer = () => {
         <>
             <Box mb={5} bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                    <Link href="/">PixerArt</Link>
-
-                    <Flex alignItems={'center'}>
-                        <Stack direction={'row'} spacing={7}>
+                    <HStack spacing={8} alignItems={'center'}>
+                        <Link href="/">PixerArt</Link>
+                        <HStack
+                            as={'nav'}
+                            spacing={4}
+                            display={{ base: 'none', md: 'flex' }}>
                             {adminRender}
-                            <IsLoggedIn user={user} />
-                            <Button onClick={() => {
-                                toggleColorMode();
-                                handleChangeMode();
-                            }}>
-                                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-                            </Button>
 
-                        </Stack>
+                        </HStack>
+                    </HStack>
+                    <Flex alignItems={'center'}>
+                        <IsLoggedIn user={user} />
+                        <Button mx={2} onClick={() => {
+                            toggleColorMode();
+                            handleChangeMode();
+                        }}>
+                            {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                        </Button>
                     </Flex>
                 </Flex>
             </Box>

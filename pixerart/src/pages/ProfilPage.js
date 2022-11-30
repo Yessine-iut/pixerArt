@@ -1,39 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import withLoading from '../components/withLoading';
-import Profile from '../components/Profile';
+import Profil from '../components/Profil';
 import useSessionStorage from '../lib/useSessionStorage';
 
-function ProfilePage() {
-	const ProfileLoading = withLoading(Profile);
+function ProfilPage() {
+	const ProfilLoading = withLoading(Profil);
 	let user = useSessionStorage('user')[0];
 	let token = useSessionStorage('token')[0];
 	const [appState, setAppState] = useState({
 		loading: false,
-		user: user?user:null,
+		user: user ? user : null,
 	});
 	useEffect(() => {
 		setAppState({ loading: true });
-		if(user!=null){
-			if(user.role==='admin'){
+		if (user != null) {
+			if (user.role === 'admin') {
 				const apiUrlBoards = 'http://localhost:8080/api/pixelBoards/';
 				axios.get(apiUrlBoards).then((boardsapi) => {
 					user.boards = boardsapi.data.data;
 					setAppState({ loading: false, user: user });
-				  });
-			  }
-			  else 
-			  setAppState({ loading: false, user: user });
-			}else{
-				setAppState({ loading: false, user: user });
+				});
 			}
-		
-	  }, [setAppState, user,token]);
+			else
+				setAppState({ loading: false, user: user });
+		} else {
+			setAppState({ loading: false, user: user });
+		}
+
+	}, [setAppState, user, token]);
 	return (
-		<React.StrictMode>
-			<ProfileLoading isLoading={appState.loading} user={appState.user} />
-		</React.StrictMode>
+		<ProfilLoading isLoading={appState.loading} user={appState.user} />
 	);
 }
 
-export default ProfilePage;
+export default ProfilPage;

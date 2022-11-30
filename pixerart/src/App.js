@@ -7,9 +7,9 @@ import {
 } from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { Home } from './pages/Home';
-import ProfilePage from './pages/ProfilePage';
+import ProfilPage from './pages/ProfilPage';
 import PixelBoardPage from './pages/PixelBoardPage';
-import { Signin } from './pages/Signin';
+import { Register } from './pages/Register';
 import { Login } from './pages/Login';
 import { PixelBoardCreate } from './pages/PixelBoardCreate';
 import PixelBoardEditPage from './pages/PixelBoardEditPage';
@@ -26,10 +26,10 @@ const App = () => (
 		<Router>
 			<Container className="App">
 				<Routes>
-					<Route path="/profile" element={<ProfilePage />} />
+					<Route path="/profil" element={<ProfilPage />} />
 					<Route path="/pixelBoard" element={<PixelBoardPage />} />
 					<Route exact path="/" element={<Home />} />
-					<Route exact path="/signin" element={<Signin />} />
+					<Route exact path="/register" element={<Register />} />
 					<Route exact path="/login" element={<Login />} />
 					<Route exact path="/pixelBoardCreate" element={<PixelBoardCreate />} />
 					<Route exact path="/pixelBoardEdit" element={<PixelBoardEditPage />} />

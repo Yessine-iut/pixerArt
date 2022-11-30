@@ -10,18 +10,20 @@ var multerData = multer();
 const passport = require('passport');
 const secureRoute = require('./routes');
 require('./auth/auth');
+//var cors = require('cors');
+//app.use(cors());
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/api/users', passport.authenticate('jwt', { session: false }), secureRoute);
 
 app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
-
+	//res.header("'Content-Type" , "application/json");
+	//res.header("Accept" , "application/json");
 	next();
 });
 
@@ -35,6 +37,14 @@ console.log("Serveur lancé sur le port : " + port);
 app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/public/index.html');
 });
+// retourne tous les users
+app.get('/api/users', (req, res) => {
+	mongoDBModule.getUsers()
+		.then(data => {
+			res.send(JSON.stringify(data));
+		});
+});
+
 app.use('/api/user/:username', passport.authenticate('jwt', { session: false }), secureRoute);
 app.get('/api/user/:username', (req, res) => {
 	var username = req.params.username;
