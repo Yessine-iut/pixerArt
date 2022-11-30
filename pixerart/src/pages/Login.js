@@ -102,7 +102,7 @@ export const Login = () => {
 										<FormLabel>Username</FormLabel>
 										<Input
 											type="text"
-											placeholder="test@test.com"
+											placeholder="username"
 											size="lg"
 											name="username"
 											onChange={event => setUsername(event.currentTarget.value)}
