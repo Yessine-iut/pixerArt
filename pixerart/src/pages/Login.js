@@ -1,96 +1,151 @@
 import React, { useState } from 'react';
 import {
-	Alert,
-	Button, Form, FormGroup, Input, Label, Row,
-} from 'reactstrap';
-import { request } from '../lib/request';
+	Flex,
+	Box,
+	Heading,
+	FormControl,
+	FormLabel,
+	Input,
+	Button,
+	InputGroup,
+	InputRightElement,
+	CircularProgress,
+	Text
+} from '@chakra-ui/react';
+import { ViewOffIcon, ViewIcon } from '@chakra-ui/icons'
 import { NavPixer } from '../components/NavPixer';
-import './Signin.scss';
 import useLocalStorage from '../lib/useLocalStorage';
 import useSessionStorage from '../lib/useSessionStorage';
-import {
-	useNavigate
-} from 'react-router-dom';
-
+import { request } from '../lib/request';
+import { useNavigate } from 'react-router-dom';
+import ErrorMessage from '../components/ErrorMessage';
 
 export const Login = () => {
-	const [storageMode, setStorageMode] = useLocalStorage('darkmode');
+	const [error, setError] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+	const handlePasswordVisibility = () => setShowPassword(!showPassword);
+	const setStorageMode = useLocalStorage('darkmode')[1];
 	const navigate = useNavigate();
 	const token = useSessionStorage('token')[1];
+	const setToken = useSessionStorage('token')[1];
 	const userData = useSessionStorage('user')[1];
+	const [userInSS, setUserInSS] = useSessionStorage('user');
 
-	const [success, setSuccess] = useState(false);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(false);
-	const [user, setUser] = useState({
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const user = useState({
 		"username": '',
 		"password": ''
-	});
-
-	const handleChange = (e) => {
-		setSuccess(false);
-		const { name, value } = e.target;
-		setUser((prevUser) => ({
-			...prevUser,
-			[name]: value,
-		}));
-	};
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		if (user.username === '')
-			setError({ message: "Champ username requis" })
-		else if (user.password === '')
-			setError({ message: "Champ password requis" })
-		else {
-			try {
-				setSuccess(false);
-				setLoading(true);
-				setError(false);
-
-				await request.post('http://localhost:8080/login', user)
-					.then((resp) => {
-						token(resp.data.token);
-						userData(resp.data.user);
-						setStorageMode(resp.data.user.theme)
-						navigate('/');
-					}
-					);
-				setSuccess(true);
-			} catch (err) {
-				setError(err);
-			} finally {
-				setLoading(false);
-			}
+	})[0];
+	const handleSubmit = async event => {
+		event.preventDefault();
+		setIsLoading(true);
+		try {
+			user.username = username;
+			user.password = password;
+			await request.post('http://localhost:8080/login', user)
+				.then((resp) => {
+					token(resp.data.token);
+					userData(resp.data.user);
+					setStorageMode(resp.data.user.theme)
+					navigate('/');
+				}
+				);
+			setIsLoading(false);
+		} catch (error) {
+			setError('Invalid username or password');
+			setIsLoading(false);
+			setUsername('');
+			setPassword('');
 		}
 	};
 
-	return (
-		<Row tag="section" className={`Signsection ${storageMode}`}>
-			<NavPixer />
-			<h1>Login</h1>
-			<Form onSubmit={handleSubmit} className="Signin  align-items-start">
-				<FormGroup className="d-flex flex-column align-items-start">
-					<Label htmlFor="username">Username</Label>
-					<Input name="username" value={user.username} onChange={handleChange} placeholder="usernames" />
-				</FormGroup>
-				<FormGroup className="d-flex flex-column align-items-start">
-					<Label htmlFor="password">Password</Label>
-					<Input type="password" name="password" onChange={handleChange} placeholder="password" />
-				</FormGroup>
-				<div className="d-flex flex-row align-items-center justify-content-between w-100">
-					{error && <Alert color="danger" className="mb-0 py-2">{error.message}</Alert>}
-					{success && <Alert color="success" className="mb-0 py-2">Success!</Alert>}
-					<Button
-						className="ms-auto"
-						disabled={loading}
-						color="primary"
-						type="submit"
-					>
-						{loading ? 'loading' : 'Connectez-vous'}
-					</Button>
-				</div>
-			</Form>
+	const logout = () => {
+		setToken(null);
+		setUserInSS(null);
+		navigate('/');
+	};
 
-		</Row>
+	return (
+		<><NavPixer />
+			<Flex width="full" align="center" justifyContent="center">
+				<Box
+					p={8}
+					maxWidth="500px"
+					borderWidth={1}
+					borderRadius={8}
+					boxShadow="lg"
+				>
+					{userInSS != null ? (
+						<Box textAlign="center">
+							<Text>{userInSS.username} already logged in!</Text>
+							<Button
+								variantcolor="orange"
+								variant="outline"
+								width="full"
+								mt={4}
+								onClick={logout}
+							>
+								Sign out
+							</Button>
+						</Box>
+					) : (
+						<>
+							<Box textAlign="center">
+								<Heading>Login</Heading>
+							</Box>
+							<Box my={4} textAlign="left">
+								<form onSubmit={handleSubmit}>
+									{error && <ErrorMessage message={error} />}
+									<FormControl isRequired>
+										<FormLabel>Username</FormLabel>
+										<Input
+											type="text"
+											placeholder="test@test.com"
+											size="lg"
+											name="username"
+											onChange={event => setUsername(event.currentTarget.value)}
+										/>
+									</FormControl>
+									<FormControl isRequired mt={6}>
+										<FormLabel>Password</FormLabel>
+										<InputGroup>
+											<Input
+												type={showPassword ? 'text' : 'password'}
+												placeholder="*******"
+												size="lg"
+												name="password"
+												onChange={event => setPassword(event.currentTarget.value)}
+											/>
+											<InputRightElement width="3rem">
+												<Button size="sm" onClick={handlePasswordVisibility}>
+													{showPassword ? <ViewOffIcon /> : <ViewIcon />}
+												</Button>
+											</InputRightElement>
+										</InputGroup>
+									</FormControl>
+									<Button
+										variantcolor="teal"
+										variant="outline"
+										type="submit"
+										width="full"
+										mt={4}
+									>
+										{isLoading ? (
+											<CircularProgress
+												isIndeterminate
+												size="24px"
+												color="teal"
+											/>
+										) : (
+											'Sign In'
+										)}
+									</Button>
+								</form>
+							</Box>
+						</>)}
+				</Box>
+			</Flex></>
 	);
-};
+}
