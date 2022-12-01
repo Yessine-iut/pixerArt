@@ -39,7 +39,6 @@ export const PixelBoardCreate = () => {
 	});
 
 	const handleChange = (e) => {
-		setSuccess(false);
 		const { name, value } = e.target;
 		setPixelBoard((prevUser) => ({
 			...prevUser,
