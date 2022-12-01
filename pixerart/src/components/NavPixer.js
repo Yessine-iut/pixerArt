@@ -2,7 +2,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import useLocalStorage from '../lib/useLocalStorage';
 import useSessionStorage from '../lib/useSessionStorage';
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import {
     useNavigate
@@ -46,13 +46,18 @@ export const NavPixer = () => {
         setToken(null);
         navigate('/');
     };
+    
+    const timelineLoaded = useRef(false);
 
     useEffect(() => {
+      if (!timelineLoaded.current) {
         if (user != null) {
             if (colorMode !== user.theme)
                 toggleColorMode();
         }
-    }, [colorMode, toggleColorMode, user])
+        timelineLoaded.current = true;
+      }
+    }, [colorMode, toggleColorMode, user]);
 
     function IsLoggedIn(user) {
         let res;
@@ -93,8 +98,8 @@ export const NavPixer = () => {
                     <Flex alignItems={'center'}>
                         <IsLoggedIn user={user} />
                         <Button mx={2} onClick={() => {
-                            toggleColorMode();
                             handleChangeMode();
+                            toggleColorMode();
                         }}>
                             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                         </Button>
