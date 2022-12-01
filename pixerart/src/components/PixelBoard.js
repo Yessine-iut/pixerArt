@@ -25,7 +25,7 @@ export const PixelBoard = (props) => {
             "statut": false,
             "dateCreation": '',
             "dateFin": '',
-            "mode":"test1",
+            "mode":"classique",
             "delai":0,
             "titre":"",
             "pixels":[],
@@ -105,30 +105,47 @@ export const PixelBoard = (props) => {
 			const scaleY = canvas.height / rect.height; 
 			const x = (event.clientX - rect.left)*scaleX;
 			const y = (event.clientY - rect.top)*scaleY;
-			console.log(x);
-			console.log(y)
-	
-			const context = canvas.getContext('2d');
-			context.fillStyle = colorPicked;
-			context.beginPath();
-			context.rect(
-				x,
-				y,
-				10,
-				10,
-			);
-			let pixel={
-				position:{
-					x:x/10,
-					y:y/10
-				},
-				couleur:colorPicked,
-				auteur:user.username
+			let draw=true;
+			if(pixelBoard.mode==='classique'){
+				for(let i=0;i<pixelBoard.pixels.length;i++){
+					if(pixelBoard.pixels[i].position.x*10-5<x && x<pixelBoard.pixels[i].position.x*10+5){
+						console.log(pixelBoard.pixels[i].position.x*10-5)
+						console.log(x)
+						console.log(pixelBoard.pixels[i].position.x*10+5)
+							draw=false					
+						}
+					if(pixelBoard.pixels[i].position.y*10-5<y && y<pixelBoard.pixels[i].position.y*10+5){
+						console.log(pixelBoard.pixels[i].position.y*10-5)
+						console.log(y)
+						console.log(pixelBoard.pixels[i].position.y*10+5)
+						draw=false;
+					}
+				}
 			}
-			axios.put('http://localhost:8080/api/addPixel/'+pixelBoard._id+'?secret_token='+token,pixel);
-			setDelai(true)
-			setCountDownDelai(<Countdown date={Date.now()+pixelBoard.delai*1000}     renderer={rendererDelai} />)
-			context.fill();
+			if(draw){
+				const context = canvas.getContext('2d');
+				context.fillStyle = colorPicked;
+				context.beginPath();
+				context.rect(
+					x,
+					y,
+					10,
+					10,
+				);
+				let pixel={
+					position:{
+						x:x/10,
+						y:y/10
+					},
+					couleur:colorPicked,
+					auteur:user.username
+				}
+				axios.put('http://localhost:8080/api/addPixel/'+pixelBoard._id+'?secret_token='+token,pixel);
+				setDelai(true)
+				setCountDownDelai(<Countdown date={Date.now()+pixelBoard.delai*1000}     renderer={rendererDelai} />)
+				context.fill();
+			}
+			
 		}
 	};
 
