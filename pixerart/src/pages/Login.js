@@ -32,7 +32,7 @@ export const Login = () => {
 	const setToken = useSessionStorage('token')[1];
 	const userData = useSessionStorage('user')[1];
 	const [userInSS, setUserInSS] = useSessionStorage('user');
-	const { colorMode, toggleColorMode } = useColorMode();
+    const { colorMode, toggleColorMode } = useColorMode();
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -122,7 +122,7 @@ export const Login = () => {
 												name="password"
 												onChange={event => setPassword(event.currentTarget.value)}
 											/>
-											<InputRightElement width="3rem">
+											<InputRightElement width="3rem" height="100%">
 												<Button size="sm" onClick={handlePasswordVisibility}>
 													{showPassword ? <ViewOffIcon /> : <ViewIcon />}
 												</Button>

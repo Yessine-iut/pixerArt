@@ -101,7 +101,7 @@ export const Register = () => {
 										name="password"
 										onChange={event => setPassword(event.currentTarget.value)}
 									/>
-									<InputRightElement width="3rem">
+									<InputRightElement width="3rem" height="100%">
 										<Button size="sm" onClick={handlePasswordVisibility}>
 											{showPassword ? <ViewOffIcon /> : <ViewIcon />}
 										</Button>
