@@ -10,7 +10,8 @@ import {
 	InputGroup,
 	InputRightElement,
 	CircularProgress,
-	Text
+	Text,
+	useColorMode
 } from '@chakra-ui/react';
 import { ViewOffIcon, ViewIcon } from '@chakra-ui/icons'
 import { NavPixer } from '../components/NavPixer';
@@ -31,6 +32,7 @@ export const Login = () => {
 	const setToken = useSessionStorage('token')[1];
 	const userData = useSessionStorage('user')[1];
 	const [userInSS, setUserInSS] = useSessionStorage('user');
+	const { colorMode, toggleColorMode } = useColorMode();
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -49,6 +51,8 @@ export const Login = () => {
 					token(resp.data.token);
 					userData(resp.data.user);
 					setStorageMode(resp.data.user.theme)
+					if (colorMode !== resp.data.user.theme)
+						toggleColorMode();
 					navigate('/');
 				}
 				);
