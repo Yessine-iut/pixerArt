@@ -111,7 +111,7 @@ export const PixelBoard = (props) => {
 		if (chartCanvas) {
 			const url = chartCanvas.toDataURL("image/png");
 			const link = document.createElement("a");
-			link.download = "chart.png";
+			link.download = pixelBoard.titre+".png";
 			link.href = url;
 			link.click();
 		}
