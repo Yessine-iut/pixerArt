@@ -63,7 +63,7 @@ app.get('/api/pixelBoardsByAuteur/:auteur', (req, res) => {
 
 app.get('/api/pixelBoards/:username', (req, res) => {
 	var username = req.params.username;
-	mongoDBModule.getPixelBoards(username)
+	mongoDBModule.getPixelBoardsAndContributions(username)
 		.then(data => {
 			res.send(JSON.stringify(data));
 		});
@@ -80,18 +80,11 @@ app.get('/api/pixelBoard/:id', (req, res) => {
 
 app.get('/api/pixelBoardsByUsername/:username', (req, res) => {
 	var username = req.params.username;
-	mongoDBModule.getPixelBoardsByUsername(username)
+	mongoDBModule.getPixelBoardsAndContributions(username)
 		.then(data => {
 			res.send(JSON.stringify(data));
 		});
 });
-
-/*app.post('/api/users', multerData.fields([]), (req, res) => {
-	mongoDBModule.createUser(req.body)
-		.then(data => {
-			res.send(JSON.stringify(data));
-		});
-});*/
 app.use('/api/pixelBoards', passport.authenticate('jwt', { session: false }), secureRoute);
 app.post('/api/pixelBoards', multerData.fields([]), (req, res) => {
 	mongoDBModule.createPixelBoard(req.body)
