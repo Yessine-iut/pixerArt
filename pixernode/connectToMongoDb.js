@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 // Connection URL
 const url = "mongodb://database:27017/pixerart";
 exports.connexionMongo = async () => {
-  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+  mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
   const db = mongoose.connection;
   db.on("error", console.error.bind(console, "MongoDB connection error:"));
   return db;
 };
 exports.getUsers = async () => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -45,7 +45,7 @@ exports.getUsers = async () => {
 };
 
 exports.getPixelBoards = async () => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -79,7 +79,7 @@ exports.getPixelBoards = async () => {
 };
 
 exports.getUserByUsername = async (username) => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -118,7 +118,7 @@ exports.getUserByUsername = async (username) => {
 };
 
 exports.login = async (username, password) => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -167,7 +167,7 @@ exports.login = async (username, password) => {
 };
 
 exports.getPixelBoardById = async (id) => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -205,8 +205,59 @@ exports.getPixelBoardById = async (id) => {
   }
 };
 
-exports.getPixelBoardsByAuteur = async (auteur) => {
+exports.getPixelBoardsByUsername = async (username) => {
   await mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  const db = mongoose.connection;
+  let reponse;
+  let pixelBoard;
+
+  try {
+    pixelBoard = await db.collection("pixelBoards").find().toArray();
+    let rep=[]
+    let contributions=0
+    let isIn=false;
+    pixelBoard.forEach(element=>{
+      for(let i=0;i<element.pixels.length;i++){
+        if(element.pixels[i].auteur==username){
+          contributions++
+          isIn=true;
+        }
+      }
+      if(isIn)
+      rep.push(pixelBoard)
+      isIn=false;
+
+    })
+      
+    
+    if (!rep) {
+      reponse = {
+        succes: false,
+        msg: "aucun pixelBoard",
+        data: [],
+      };
+    }
+    reponse = {
+      succes: true,
+      msg: "pixelBoard find avec succès",
+      data: [rep,contributions],
+    };
+  } catch (err) {
+    reponse = {
+      succes: false,
+      error: err,
+      msg: "erreur lors du find des pixelBoards",
+    };
+  } finally {
+    return reponse;
+  }
+};
+
+exports.getPixelBoardsByAuteur = async (auteur) => {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -242,7 +293,7 @@ exports.getPixelBoardsByAuteur = async (auteur) => {
 };
 
 exports.createUser = async (formData) => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -274,7 +325,7 @@ exports.createUser = async (formData) => {
 };
 //TODO A améliorer
 exports.createPixelBoard = async (formData) => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -310,7 +361,7 @@ exports.createPixelBoard = async (formData) => {
 };
 
 exports.updateUser = async (id, formData) => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -345,7 +396,7 @@ exports.updateUser = async (id, formData) => {
 };
 
 exports.updatePixelBoard = async (id, formData) => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -389,7 +440,7 @@ exports.updatePixelBoard = async (id, formData) => {
 };
 
 exports.deleteUser = async function (id, callback) {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -418,7 +469,7 @@ exports.deleteUser = async function (id, callback) {
 };
 
 exports.deletePixelBoard = async function (id, callback) {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -446,7 +497,7 @@ exports.deletePixelBoard = async function (id, callback) {
   }
 };
 exports.addPixel = async (id, formData) => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

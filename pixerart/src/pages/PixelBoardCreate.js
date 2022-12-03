@@ -28,7 +28,7 @@ export const PixelBoardCreate = () => {
 		"statut": false,
 		"dateCreation": '',
 		"dateFin": '',
-		"mode": "test1",
+		"mode": "classique",
 		"delai": 0,
 		"titre": "",
 		"pixels": [],
@@ -119,8 +119,8 @@ export const PixelBoardCreate = () => {
 							<FormControl isRequired mt={3}>
 								<FormLabel>Mode</FormLabel>
 								<Select name="mode" onChange={handleChange}>
-									<option>méchant</option>
-									<option>gentil</option>
+									<option>classique</option>
+									<option>competitif</option>
 								</Select>
 							</FormControl>
 							<FormControl as='fieldset' isRequired mt={3}>

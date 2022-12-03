@@ -77,6 +77,13 @@ app.get('/api/pixelBoard/:id', (req, res) => {
 		});
 });
 
+app.get('/api/pixelBoardsByUsername/:username', (req, res) => {
+	var username = req.params.username;
+	mongoDBModule.getPixelBoardsByUsername(username)
+		.then(data => {
+			res.send(JSON.stringify(data));
+		});
+});
 
 /*app.post('/api/users', multerData.fields([]), (req, res) => {
 	mongoDBModule.createUser(req.body)

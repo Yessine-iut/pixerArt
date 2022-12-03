@@ -19,9 +19,13 @@ pixelBoard2.save((err) => {
     if (err) return handleError(err);
   });
 
-  setTimeout(()=>{
-    process.exit(0)
-  },5000)
+  const handleError = function(err) {
+    console.error(err);
+};
+
+setTimeout(()=>{
+  process.exit(0)
+},5000)
 
  function convertDate(yourDate){
     const offset = yourDate.getTimezoneOffset()

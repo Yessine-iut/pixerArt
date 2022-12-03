@@ -29,7 +29,7 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 			"statut": false,
 			"dateCreation": '',
 			"dateFin": '',
-			"mode": "test1",
+			"mode": "classique",
 			"delai": 0,
 			"titre": "",
 			"pixels": [],
@@ -117,6 +117,7 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 									size="md"
 									type="date"
 									name="dateFin"
+									value={pixelBoard.dateFin}
 									onChange={handleChange}
 								/>
 							</FormControl>
@@ -128,13 +129,15 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 									onChange={handleChange}
 									name="delai"
 									placeholder="0"
+									value={pixelBoard.delai}
+
 								/>
 							</FormControl>
 							<FormControl isRequired mt={3}>
 								<FormLabel>Mode</FormLabel>
 								<Select name="mode" onChange={handleChange}>
-									<option>méchant</option>
-									<option>gentil</option>
+									<option>competitif</option>
+									<option>classique</option>
 								</Select>
 							</FormControl>
 							<FormControl as='fieldset' isRequired mt={3}>
@@ -145,6 +148,7 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 									onChange={handleChange}
 									name="width"
 									placeholder="500"
+									value={pixelBoard.width}
 								/>
 								<FormLabel>Hauteur</FormLabel>
 								<Input
@@ -153,6 +157,7 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 									onChange={handleChange}
 									name="height"
 									placeholder="500"
+									value={pixelBoard.height}
 								/>
 							</FormControl>
 							<Button
