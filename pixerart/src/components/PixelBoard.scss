@@ -1,5 +1,11 @@
 .Drawing {
 	canvas {
 		border: 1px solid red;
+		background-color: var(--chakra-colors-chakra-body-bg);
 	}
+}
+.sketch-picker{
+	border: 1px solid red;
+	background-color: var(--chakra-colors-chakra-body-bg)!important;
+	max-height: 300px;
 }

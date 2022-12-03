@@ -5,9 +5,9 @@ import './List.scss';
 
 export const BoardList = ({ boards }) => {
 	const user = useSessionStorage('user')[0];
-	let title = <h1>Les pixelBoards du site</h1>
+	let title = <h2>Les pixelBoards du site</h2>
 	if(user.role==="client")
-		title= <h1>Les pixelBoards auxquels vous avez contribué</h1>
+		title= <h2>Les pixelBoards auxquels vous avez contribué</h2>
 return(
 	<>
 	<div className="BoardList">

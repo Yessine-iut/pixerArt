@@ -7,7 +7,7 @@ import useSessionStorage from '../lib/useSessionStorage';
 import axios from 'axios';
 import { NavPixer } from '../components/NavPixer';
 import Countdown from 'react-countdown';
-import Button from 'react-bootstrap/Button';
+import { Button} from '@chakra-ui/react';
 
 export const PixelBoard = (props) => {
 
@@ -43,10 +43,8 @@ export const PixelBoard = (props) => {
 		// draw background
 		ctx.fillStyle = '#fff';
 		ctx.beginPath();
-		ctx.rect(0, 0, canvasRef.current.width*zoom, canvasRef.current.height*zoom);
-		ctx.fill();
-		ctx.strokeStyle = '#ddd';
-		ctx.fillStyle = '#ddd';
+		ctx.clearRect(0, 0, canvasRef.current.width*zoom, canvasRef.current.height*zoom);
+		
 		pixelBoard.pixels.forEach((d) => {
 			ctx.beginPath();
 			ctx.fillStyle = d.couleur;
@@ -193,6 +191,7 @@ export const PixelBoard = (props) => {
 				<Col className="d-flex flex-column justify-content-center align-items-center">
 					<canvas onClick={handleClickCanvas} ref={canvasRef} />
 				</Col>
+				
 				<SketchPicker
 					color={colorPicked}
 					onChange={handleColorChange}

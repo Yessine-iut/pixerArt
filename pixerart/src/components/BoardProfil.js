@@ -1,13 +1,15 @@
 import './BoardProfil.scss';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/esm/Button';
 import useSessionStorage from '../lib/useSessionStorage';
+import { Button} from '@chakra-ui/react'
+import { Link } from 'react-router-dom';
+
 
 
 export const BoardProfil = ({ board}) => {
 	const user = useSessionStorage('user')[0];
-	let canedit = <Button href={`/pixelBoardEdit?id=${board._id}`}>Editer board</Button>
-	if(user.role=="client")
+	let canedit = <Button ><Link to={`/pixelBoardEdit?id=${board._id}`}>Editer board</Link></Button>
+	if(user.role==="client")
 		canedit= <></>
 	return (
 		<Card className='BoardProfil' style={{ height: '20rem', width: '20rem' }}>
@@ -22,7 +24,7 @@ export const BoardProfil = ({ board}) => {
 				{canedit}
 				<br/>
 				<br/>
-				<Button href={`pixelBoard?id=${board._id}`}>Visualiser le board</Button>
+				<Button><Link to={`/pixelBoard?id=${board._id}`}>Visualiser le board</Link></Button>
 			</Card.Body>
 		</Card>
 	);

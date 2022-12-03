@@ -4,15 +4,13 @@ import { Link } from 'react-router-dom';
 import { Col, Row } from 'reactstrap';
 import { NavPixer } from '../components/NavPixer';
 import axios from 'axios';
-import useSessionStorage from '../lib/useSessionStorage';
 
 export const Home = () => {
 	const api = 'http://localhost:8080/api/';
 	const [nbPixelBoards, setNbPixelBoards] = useState(0);
 	const [nbUsers, setNbUsers] = useState(0);
-	const user = useSessionStorage('user')[0];
 
-	if (user != null) {
+	
 		axios.get(api + 'PixelBoards/Yessine').then(resp => {
 			setNbPixelBoards(resp.data.data[0].length);
 		}).catch(err => {
@@ -24,7 +22,6 @@ export const Home = () => {
 		}).catch(err => {
 			console.log(err);
 		})
-	}
 
 	return (
 	<>
