@@ -71,6 +71,13 @@ app.get('/api/pixelBoard/:id', (req, res) => {
 			res.send(JSON.stringify(data.pixelBoards[0]));
 		});
 });
+//Récupération des 9! derniers pixelboard terminés
+app.get('/api/pixelBoardsFinished/', (req, res) => {
+	mongoDBModule.getLastFinishedPixelBoards()
+		.then(data => {
+			res.send(JSON.stringify(data));
+		});
+});
 
 app.get('/api/pixelBoardsByUsername/:username', (req, res) => {
 	var username = req.params.username;

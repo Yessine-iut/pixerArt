@@ -134,6 +134,50 @@ exports.getPixelBoardsContribuate = async (username) => {
     return reponse;
   }
 };
+
+function todayDate(){
+  var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1;
+	if (dd < 10) dd = '0' + dd;
+	if (mm < 10) mm = '0' + mm;
+	return today.getFullYear() + '-' + mm + '-' + dd;
+}
+
+exports.getLastFinishedPixelBoards = async () => {
+  await mongoose.createConnection(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  const db = mongoose.connection;
+  let reponse;
+  let pixelBoard;
+
+  try {
+    pixelBoard = await db.collection("pixelBoards").find({$where:"this.dateFin<'"+todayDate()+"'"}).limit(9).sort({"dateFin":-1}).toArray();
+    if (!pixelBoard) {
+      reponse = {
+        succes: false,
+        msg: "aucun pixelBoard",
+        data: [],
+      };
+    }
+    reponse = {
+      succes: true,
+      msg: "pixelBoard find avec succès",
+      data: pixelBoard,
+    };
+  } catch (err) {
+    reponse = {
+      succes: false,
+      error: err,
+      msg: "erreur lors du find des pixelBoards",
+    };
+  } finally {
+    return reponse;
+  }
+};
+
 exports.getPixelBoardByField = async (myquery) => {
   await mongoose.createConnection(url, {
     useNewUrlParser: true,
