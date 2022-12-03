@@ -6,7 +6,7 @@ import './List.scss';
 export const BoardList = ({ boards }) => {
 	const user = useSessionStorage('user')[0];
 	let title = <h1>Les pixelBoards du site</h1>
-	if(user.role=="client")
+	if(user.role==="client")
 		title= <h1>Les pixelBoards auxquels vous avez contribué</h1>
 return(
 	<>
@@ -14,7 +14,7 @@ return(
 		{title}
 		<ul>
 			{(boards || []).map((t) => (
-				<BoardProfil key={t} board={t}/>
+				<BoardProfil key={t+Math.random()} board={t}/>
 			))}
 		</ul>
 	</div>

@@ -2,9 +2,6 @@
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { Col, Row } from 'reactstrap';
 import { SketchPicker } from 'react-color'
-import {
-	useNavigate
-} from 'react-router-dom';
 import './PixelBoard.scss';
 import useSessionStorage from '../lib/useSessionStorage';
 import axios from 'axios';
@@ -16,7 +13,6 @@ export const PixelBoard = (props) => {
 
 	const [colorPicked, setColor] = useState("#ddd");
 	let pixelBoard = null;
-	const navigate = useNavigate();
 	let user = useSessionStorage('user')[0];
 	const token = useSessionStorage('token')[0];
 	const [delai, setDelai] = useState(false);
@@ -34,13 +30,13 @@ export const PixelBoard = (props) => {
 			"titre": "",
 			"pixels": [],
 			"taille": {
-				"height": 500,
-				"width": 500
+				"height": 50,
+				"width": 50
 			}
 		}
 	} else pixelBoard = props.pixelBoard
-	const W = pixelBoard.taille.width;
-	const H = pixelBoard.taille.height;
+	const W = pixelBoard.taille.width*10;
+	const H = pixelBoard.taille.height*10;
 	const canvasRef = useRef(null);
 
 	const initDraw = useCallback((ctx) => {
@@ -54,7 +50,7 @@ export const PixelBoard = (props) => {
 		pixelBoard.pixels.forEach((d) => {
 			ctx.beginPath();
 			ctx.fillStyle = d.couleur;
-			ctx.rect(d.position.x, d.position.y,zoom, zoom);
+			ctx.rect(d.position.x, d.position.y,10, 10);
 			ctx.fill();
 		});
 	}, [pixelBoard.pixels,zoom]);
@@ -124,18 +120,18 @@ export const PixelBoard = (props) => {
 	};
 
 	const handleClickCanvas = (event) => {
-		if (!delai) {
+		if (!delai && !pixelBoard.statut) {
 			const canvas = canvasRef.current;
 			const rect = canvas.getBoundingClientRect();
 			const scaleX = canvas.width / rect.width;
 			const scaleY = canvas.height / rect.height;
-			const x = (event.clientX - rect.left) * scaleX;
-			const y = (event.clientY - rect.top) * scaleY;
+			const x = (event.clientX - rect.left) * scaleX-5;
+			const y = (event.clientY - rect.top) * scaleY-5;
 			let draw = true;
 
 			if(pixelBoard.mode==='classique'){
 				for(let i=0;i<pixelBoard.pixels.length;i++){
-						if(x>pixelBoard.pixels[i].position.x-0.5*zoom && x<pixelBoard.pixels[i].position.x+0.5*zoom && y>pixelBoard.pixels[i].position.y-0.5*zoom && y<pixelBoard.pixels[i].position.y+0.5*zoom ){
+						if(x>pixelBoard.pixels[i].position.x-5 && x<pixelBoard.pixels[i].position.x+5 && y>pixelBoard.pixels[i].position.y-5 && y<pixelBoard.pixels[i].position.y+5 ){
 							draw=false
 							console.log("vous ne pouvez pas dessiner ici")				
 						}
@@ -148,8 +144,8 @@ export const PixelBoard = (props) => {
 			context.rect(
 				x,
 				y,
-				zoom,
-				zoom,
+				10,
+				10,
 			);
 			let pixel = {
 				position: {
@@ -173,8 +169,9 @@ export const PixelBoard = (props) => {
 	};
 	const renderer = ({ hours, minutes, seconds, days, completed }) => {
 		if (completed) {
-			// Render a completed state
-			navigate('/');
+			pixelBoard.statut = true;
+			axios.put('http://localhost:8080/api/pixelBoard/' + pixelBoard._id + '?secret_token=' + token, pixelBoard)
+			return <span>Ce pixelboard est terminé! Merci de votre participation!</span>;
 
 		} else {
 			// Render a countdown
@@ -189,6 +186,9 @@ export const PixelBoard = (props) => {
 			<Countdown date={new Date(pixelBoard.dateFin)} renderer={renderer} />
 			<br />
 			{countdownDelai}
+			<br/>
+			<Button onClick={handleZoomDown}>-</Button><Button onClick={handleZoomUp}>+</Button>&nbsp;
+			<Button onClick={handleChartDownload}>Télécharger le Board</Button><br/><br/>
 			<Row className="Drawing">
 				<Col className="d-flex flex-column justify-content-center align-items-center">
 					<canvas onClick={handleClickCanvas} ref={canvasRef} />
@@ -198,10 +198,6 @@ export const PixelBoard = (props) => {
 					onChange={handleColorChange}
 				/>
 			</Row >
-			<Button onClick={handleZoomDown}>-</Button><Button onClick={handleZoomUp}>+</Button><br/>
-
-			<Button onClick={handleChartDownload}>Télécharger le Board</Button><br/><br/>
-
 		</>
 	);
 };
