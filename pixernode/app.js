@@ -9,6 +9,7 @@ var multer = require('multer');
 var multerData = multer();
 const passport = require('passport');
 const secureRoute = require('./routes');
+var ObjectId = require("mongodb").ObjectID;
 require('./auth/auth');
 //var cors = require('cors');
 //app.use(cors());
@@ -53,13 +54,6 @@ app.get('/api/user/:username', (req, res) => {
 			res.send(JSON.stringify(data));
 		});
 });
-app.get('/api/pixelBoardsByAuteur/:auteur', (req, res) => {
-	var auteur = req.params.auteur;
-	mongoDBModule.getPixelBoardsByAuteur(auteur)
-		.then(data => {
-			res.send(JSON.stringify(data));
-		});
-});
 
 app.get('/api/pixelBoards/:username', (req, res) => {
 	var username = req.params.username;
@@ -71,16 +65,16 @@ app.get('/api/pixelBoards/:username', (req, res) => {
 // Récupération d'un seul pixelBoard par son id
 app.get('/api/pixelBoard/:id', (req, res) => {
 	var id = req.params.id;
-
-	mongoDBModule.getPixelBoardById(id)
+    let myquery = { _id: ObjectId(id) };
+	mongoDBModule.getPixelBoardByField(myquery)
 		.then(data => {
-			res.send(JSON.stringify(data));
+			res.send(JSON.stringify(data.pixelBoards[0]));
 		});
 });
 
 app.get('/api/pixelBoardsByUsername/:username', (req, res) => {
 	var username = req.params.username;
-	mongoDBModule.getPixelBoardsAndContributions(username)
+	mongoDBModule.getPixelBoardsContribuate(username)
 		.then(data => {
 			res.send(JSON.stringify(data));
 		});
