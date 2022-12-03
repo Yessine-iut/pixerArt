@@ -1,7 +1,7 @@
 var ObjectId = require("mongodb").ObjectID;
 const mongoose = require("mongoose");
 // Connection URL
-const url = "mongodb://database:27017/pixerart";
+const url = "mongodb://127.0.0.1:27017/pixerart";
 exports.connexionMongo = async () => {
   mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
   const db = mongoose.connection;
@@ -44,7 +44,7 @@ exports.getUsers = async () => {
   }
 };
 
-exports.getPixelBoards = async () => {
+exports.getPixelBoards = async (username) => {
   await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -55,7 +55,19 @@ exports.getPixelBoards = async () => {
 
   try {
     pixelBoard = await db.collection("pixelBoards").find().toArray();
-    if (!pixelBoard) {
+    let rep=[]
+    let contributions=0
+    pixelBoard.forEach(element=>{
+      for(let i=0;i<element.pixels.length;i++){
+        if(element.pixels[i].auteur==username){
+          contributions++
+        }
+      }
+      rep.push(element)
+    })
+      
+    
+    if (!rep) {
       reponse = {
         succes: false,
         msg: "aucun pixelBoard",
@@ -65,8 +77,44 @@ exports.getPixelBoards = async () => {
     reponse = {
       succes: true,
       msg: "pixelBoard find avec succès",
-      data: pixelBoard,
+      data: [rep,contributions],
     };
+  } catch (err) {
+    reponse = {
+      succes: false,
+      error: err,
+      msg: "erreur lors du find des pixelBoards",
+    };
+  } finally {
+    return reponse;
+  }
+};
+
+exports.getPixelBoardsByAuteur = async (auteur) => {
+  await mongoose.createConnection(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  const db = mongoose.connection;
+  let reponse;
+  let pixelBoards;
+  try {
+    let query = { auteur: auteur };
+
+    pixelBoards = await db.collection("pixelBoards").find(query).toArray();
+    if (!pixelBoards) {
+      reponse = {
+        succes: true,
+        msg: "pixelBoard find avec succès",
+        data: pixelBoards,
+      };
+    } else {
+      reponse = {
+        succes: true,
+        msg: "pixelBoard find avec succès",
+        data: pixelBoards,
+      };
+    }
   } catch (err) {
     reponse = {
       succes: false,
@@ -206,7 +254,7 @@ exports.getPixelBoardById = async (id) => {
 };
 
 exports.getPixelBoardsByUsername = async (username) => {
-  await mongoose.connect(url, {
+  await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -218,18 +266,17 @@ exports.getPixelBoardsByUsername = async (username) => {
     pixelBoard = await db.collection("pixelBoards").find().toArray();
     let rep=[]
     let contributions=0
-    let isIn=false;
     pixelBoard.forEach(element=>{
+      let isIn=false;
       for(let i=0;i<element.pixels.length;i++){
         if(element.pixels[i].auteur==username){
           contributions++
           isIn=true;
         }
       }
-      if(isIn)
-      rep.push(pixelBoard)
-      isIn=false;
-
+      if(isIn){
+      rep.push(element)
+      }
     })
       
     

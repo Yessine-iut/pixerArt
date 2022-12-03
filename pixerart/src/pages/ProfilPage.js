@@ -16,14 +16,21 @@ function ProfilPage() {
 		setAppState({ loading: true });
 		if (user != null) {
 			if (user.role === 'admin') {
-				const apiUrlBoards = 'http://localhost:8080/api/pixelBoards/';
+				const apiUrlBoards = 'http://localhost:8080/api/pixelBoards/'+user.username;
 				axios.get(apiUrlBoards).then((boardsapi) => {
-					user.boards = boardsapi.data.data;
+					user.boards = boardsapi.data.data[0];
+					user.contributions = boardsapi.data.data[1];
 					setAppState({ loading: false, user: user });
 				});
 			}
-			else
-				setAppState({ loading: false, user: user });
+			else{
+				const apiUrlBoards = 'http://localhost:8080/api/pixelBoardsByUsername/'+user.username;
+				axios.get(apiUrlBoards).then((boardsapi) => {
+					user.boards = boardsapi.data.data[0];
+					user.contributions = boardsapi.data.data[1];
+					setAppState({ loading: false, user: user });
+				});
+			}
 		} else {
 			setAppState({ loading: false, user: user });
 		}

@@ -2,7 +2,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import useLocalStorage from '../lib/useLocalStorage';
 import useSessionStorage from '../lib/useSessionStorage';
 import axios from 'axios';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 import {
     useNavigate
@@ -39,6 +39,7 @@ export const NavPixer = () => {
                 user.theme = 'dark'
             }
             axios.put('http://localhost:8080/api/user/' + user._id + '?secret_token=' + token, user);
+            setUser(user)
         }
     }
     const logout = () => {
@@ -47,15 +48,11 @@ export const NavPixer = () => {
         navigate('/');
     };
     
-    const timelineLoaded = useRef(false);
-
     useEffect(() => {
-      if (!timelineLoaded.current) {
         if (user != null) {
-            if (colorMode !== user.theme)
-                toggleColorMode();
-        }
-        timelineLoaded.current = true;
+            if(user.theme!==colorMode)
+            toggleColorMode();
+        
       }
     }, [colorMode, toggleColorMode, user]);
 

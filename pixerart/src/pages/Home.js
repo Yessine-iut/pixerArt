@@ -13,8 +13,8 @@ export const Home = () => {
 	const user = useSessionStorage('user')[0];
 
 	if (user != null) {
-		axios.get(api + 'pixelBoards/').then(resp => {
-			setNbPixelBoards(resp.data.data.length);
+		axios.get(api + 'PixelBoards/Yessine').then(resp => {
+			setNbPixelBoards(resp.data.data[0].length);
 		}).catch(err => {
 			console.log(err);
 		})

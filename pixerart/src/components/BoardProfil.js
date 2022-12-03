@@ -1,22 +1,28 @@
 import './BoardProfil.scss';
-import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
-import useLocalStorage from '../lib/useLocalStorage';
 import Button from 'react-bootstrap/esm/Button';
+import useSessionStorage from '../lib/useSessionStorage';
+
 
 export const BoardProfil = ({ board}) => {
-	const storageMode = useLocalStorage('darkmode')[0];
+	const user = useSessionStorage('user')[0];
+	let canedit = <Button href={`/pixelBoardEdit?id=${board._id}`}>Editer board</Button>
+	if(user.role=="client")
+		canedit= <></>
 	return (
-		<Card className={`BoardProfil ${storageMode}`} style={{ height: '20rem', width: '20rem' }}>
+		<Card className='BoardProfil' style={{ height: '20rem', width: '20rem' }}>
 			<Card.Body>
 				<Card.Title>{board.titre}</Card.Title>
 				<Card.Text>
 					Ce board a été créé le {board.dateCreation}.<br/>
-					{board.dateFin ? "Il s'est terminé le"+board.dateFin: "Il est en cours."}
+					Sa date de fin est le {board.dateFin}.
+					C'est un board {board.mode}.
 				</Card.Text>
-				<Link to={`/pixelBoardEdit?id=${board._id}`}>Editer board</Link>
 				<br/>
-				<Button href={`pixelBoard?id=${board._id}`}>Visualiser Board</Button>
+				{canedit}
+				<br/>
+				<br/>
+				<Button href={`pixelBoard?id=${board._id}`}>Visualiser le board</Button>
 			</Card.Body>
 		</Card>
 	);

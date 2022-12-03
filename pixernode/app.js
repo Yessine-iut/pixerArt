@@ -61,8 +61,9 @@ app.get('/api/pixelBoardsByAuteur/:auteur', (req, res) => {
 		});
 });
 
-app.get('/api/pixelBoards', (req, res) => {
-	mongoDBModule.getPixelBoards()
+app.get('/api/pixelBoards/:username', (req, res) => {
+	var username = req.params.username;
+	mongoDBModule.getPixelBoards(username)
 		.then(data => {
 			res.send(JSON.stringify(data));
 		});
