@@ -177,6 +177,12 @@ export const PixelBoard = (props) => {
 		}
 	};
 
+	let colorPicker = <></>
+	if(user!=null)
+	colorPicker = <SketchPicker
+					color={colorPicked}
+					onChange={handleColorChange}
+				/>
 	return (
 		<>
 			<NavPixer />
@@ -192,10 +198,7 @@ export const PixelBoard = (props) => {
 					<canvas onClick={handleClickCanvas} ref={canvasRef} />
 				</Col>
 				
-				<SketchPicker
-					color={colorPicked}
-					onChange={handleColorChange}
-				/>
+				{colorPicker}
 			</Row >
 		</>
 	);
