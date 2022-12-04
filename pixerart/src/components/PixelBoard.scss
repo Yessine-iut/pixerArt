@@ -9,3 +9,8 @@
 	background-color: var(--chakra-colors-chakra-body-bg)!important;
 	max-height: 300px;
 }
+.App{
+	display:block;
+	flex-direction: column;
+	min-height: 93vh;
+}

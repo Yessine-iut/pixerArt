@@ -118,7 +118,7 @@ export const PixelBoard = (props) => {
 	};
 
 	const handleClickCanvas = (event) => {
-		if (!delai && !pixelBoard.statut) {
+		if (!delai && !pixelBoard.statut && user!=null) {
 			const canvas = canvasRef.current;
 			const rect = canvas.getBoundingClientRect();
 			const scaleX = canvas.width / rect.width;

@@ -10,7 +10,6 @@ export const Home = () => {
 	const [nbUsers, setNbUsers] = useState(0);
 	const [pxbsFinished, setPxbsFinished] = useState(0);
 	const [pxbsF, setPxbsF] = useState([]);
-	const [pxbsLastCreated, setPxbsLastCreated] = useState(0);
 	const [pxbsC, setPxbsC] = useState([]);
 	axios.get(api + 'pixelBoards').then(resp => {
 		setNbPixelBoards(resp.data.data.length);
@@ -25,7 +24,6 @@ export const Home = () => {
 			console.log(err);
 		})
 		axios.get(api + 'pixelBoardsLastCreated/').then(resp => {
-			setPxbsLastCreated(resp.data.data.length);
 			setPxbsC(resp.data.data)
 		}).catch(err => {
 			console.log(err);
