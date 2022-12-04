@@ -1,7 +1,7 @@
 # pixerArt
 Projet M2 du module Serveur Side JavaScript
 
-Vidéo de démo du projet disponible [ici](https://www.youtube.com/)
+Vidéo de démo du projet disponible [ici](https://youtu.be/JYzgqnZaO_s)
 
 Le bonus "exporter un PixelBoard en image" a été fait.  
 
