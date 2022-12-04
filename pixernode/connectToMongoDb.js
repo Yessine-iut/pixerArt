@@ -1,7 +1,6 @@
 var ObjectId = require("mongodb").ObjectID;
 const mongoose = require("mongoose");
 // Connection URL
-console.log(`${process.env.API_URL}`)
 const url = `mongodb://${process.env.API_URL}:27017/pixerart`;
 exports.connexionMongo = async () => {
   mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
