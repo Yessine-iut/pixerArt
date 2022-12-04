@@ -1,74 +1,53 @@
-import React, { useState, useEffect } from 'react';
-import { Text, Divider, Container, Box } from '@chakra-ui/react';
+import React, { useState } from 'react';
+
+import { Link } from 'react-router-dom';
+import { Col, Row } from 'reactstrap';
 import { NavPixer } from '../components/NavPixer';
 import axios from 'axios';
-import { BoardProfil } from '../components/BoardProfil';
+import useSessionStorage from '../lib/useSessionStorage';
 
 export const Home = () => {
 	const api = 'http://localhost:8080/api/';
 	const [nbPixelBoards, setNbPixelBoards] = useState(0);
 	const [nbUsers, setNbUsers] = useState(0);
-	const [pxbsFinished, setPxbsFinished] = useState(0);
-	const [pxbsF, setPxbsF] = useState([]);
-	const [pxbsLastCreated, setPxbsLastCreated] = useState(0);
-	const [pxbsC, setPxbsC] = useState([]);
-	axios.get(api + 'pixelBoards').then(resp => {
-		setNbPixelBoards(resp.data.data.length);
-	}).catch(err => {
-		console.log(err);
-	})
-	useEffect(() => {
-		axios.get(api + 'pixelBoardsFinished/').then(resp => {
-			setPxbsFinished(resp.data.data.length);
-			setPxbsF(resp.data.data)
-		}).catch(err => {
-			console.log(err);
-		})
-		axios.get(api + 'pixelBoardsLastCreated/').then(resp => {
-			setPxbsLastCreated(resp.data.data.length);
-			setPxbsC(resp.data.data)
-		}).catch(err => {
-			console.log(err);
-		})
-	}, []);
+	const user = useSessionStorage('user')[0];
+	const [pixelBoardsTermines, setPixelBoardsTermines] = useState();
+    let pixelboardsFinishedRender = <></>;
 
-	axios.get(api + 'users').then(resp => {
-		setNbUsers(resp.data.data.length);
-	}).catch(err => {
-		console.log(err);
-	})
+	if (user != null) {
+		axios.get(api + 'pixelBoards/').then(resp => {
+			const pxbs = resp.data.data;
+			pixelboardsFinishedRender = <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/pixelBoardCreate'}>Create PixelBoard</Link>
+
+			for (let i=0; i< pxbs.length;i++){
+				//pixelboardsFinishedRender += <p>Pxboard fini le {pxbs[i].dateFin} <br/></p>;
+				pixelboardsFinishedRender = <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/pixelBoardCreate'}>Create PixelBoard</Link>
+
+			}
+			setNbPixelBoards(resp.data.data.length);
+		}).catch(err => {
+			console.log(err);
+		})
+
+		axios.get(api + 'users').then(resp => {
+			setNbUsers(resp.data.data.length);
+		}).catch(err => {
+			console.log(err);
+		})
+	}
 
 	return (
-		<>
-			<NavPixer />
-			<Container maxW='5xl' centerContent>
-				<Box mb={4} as='b'>
-					<Text fontSize='3xl' color='salmon' as='u'>Accueil</Text>
-				</Box>
-				<Box>
-					<Text fontSize='2xl'><Box as='span' color='salmon' fontSize='3xl'>{nbPixelBoards}</Box> PixelBoards ont été créés via PixerArt ! </Text>
-					<Text fontSize='2xl'><Box as='span' color='salmon' fontSize='3xl'>{nbUsers}</Box> Utilisateurs nous ont rejoints !</Text>
-					<Text fontSize='2xl'><Box as='span' color='salmon' fontSize='3xl'>{pxbsFinished}</Box> PixelBoards ont été finis via PixerArt ! </Text>
-				</Box>
-			</Container>
-			<Divider orientation='horizontal' mb={4} mt={4} />
-			<Container>
-				<Box>
-					<Text fontSize='2xl' mb={3}>Voici les derniers pixelboards terminés</Text>
-					{(pxbsF || []).map((t) => (
-						<BoardProfil key={t + Math.random()} board={t} />
-					))}
-				</Box>
-			</Container>
-			<Divider orientation='horizontal' mb={4} mt={4} />
-			<Container mb={4}>
-				<Box >
-					<Text fontSize='2xl' mb={3}>Voici les derniers pixelboards tout juste créés</Text>
-					{(pxbsC || []).map((t) => (
-						<BoardProfil key={t + Math.random()} board={t} />
-					))}
-				</Box>
-			</Container>
-		</>
+	<>
+		<NavPixer />
+		<Row>
+			<Col>
+				<h1>Home</h1>
+				<Link to="/profil">Votre profil</Link>
+				<p>Nombre de Pixelboards: {nbPixelBoards}</p><br />
+				<p>Nombre d'Users: {nbUsers}</p>
+				<p>{pixelboardsFinishedRender}</p>
+			</Col>
+		</Row>
+	</>
 	)
 }
