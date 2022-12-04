@@ -7,34 +7,37 @@ Le bonus "exporter un PixelBoard en image" a été fait.
 
 # contributeurs
 
-- Ahmed Saad el din Ahmed
-	- git : saad-ahmed98
-	- Tâches effectuées : 
-		- Mise en place de pixelboards
-		- Téléchargement pixelboards (BONUS)
-		- Page de profil
-		- Previsualisation pixelboards sur liste de pixelboards
-		- Tri par date
-		- Création de formulaires login,logout,création et edit pixelboard (avec Yessine)
-- Ben el bey Yessine
-	- git : Yessine-iut
-	- Tâches effectuées :
-		- Création de l'api node.js
-		- Mise en place de mongoose et appels vers BD
-		- Authentification avec passport
-		- Création de formulaires login,logout,création et edit pixelboard (avec Saad)
-- Nortier Hugo
-	- git : Hugo-Nortier
-	- Tâches effectuées :
-		- Mise en place de docker
-		- Création du home page et appelles api correspondantes
-		- Theme light et dark
-		- Amélioration design et responsivité
-- Mackpayen Prince Divin
-	- git : Osiris-ouaga
-	- Tâches effectuées :
-		- Authentification
-		- Login et logout
+Ahmed Saad el din Ahmed
+- git : saad-ahmed98
+- Tâches effectuées : 
+	- Mise en place de pixelboards
+	- Téléchargement pixelboards (BONUS)
+	- Page de profil
+	- Previsualisation pixelboards sur liste de pixelboards
+	- Tri par date
+	- Création de formulaires login,logout,création et edit pixelboard (avec Yessine)  
+	
+Ben el bey Yessine
+- git : Yessine-iut
+- Tâches effectuées :
+	- Création de l'api node.js
+	- Mise en place de mongoose et appels vers BD
+	- Authentification avec passport
+	- Création de formulaires login,logout,création et edit pixelboard (avec Saad)
+	
+Nortier Hugo
+- git : Hugo-Nortier
+- Tâches effectuées :
+	- Mise en place de docker
+	- Création du home page et appels api correspondants
+	- Theme light et dark
+	- Amélioration design et responsivité  
+	
+Mackpayen Prince Divin
+- git : Osiris-ouaga
+- Tâches effectuées :
+	- Authentification
+	- Login et logout
 
 # modèle de données
 Utilisateur: 
@@ -66,7 +69,7 @@ Un docker-compose.yml permet de construire et démarrer:
 - un mongo express sur le port 8111.
 Pour les lancer, faites : 
 ```bash
-sudo docker compose up --build
+sudo docker-compose up --build
 ```
 ------
 Sinon, vous pouvez lancer le backend et le frontend sans utiliser docker. Pour cela :   
