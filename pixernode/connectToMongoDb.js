@@ -1,7 +1,7 @@
 var ObjectId = require("mongodb").ObjectID;
 const mongoose = require("mongoose");
 // Connection URL
-const url = "mongodb://127.0.0.1:27017/pixerart";
+const url = "mongodb://database:27017/pixerart";
 exports.connexionMongo = async () => {
   mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
   const db = mongoose.connection;
@@ -43,7 +43,41 @@ exports.getUsers = async () => {
     return reponse;
   }
 };
+exports.getPixelBoards = async () => {
+  await mongoose.createConnection(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  const db = mongoose.connection;
+  let reponse;
+  let pixelBoards;
 
+  try {
+    pixelBoards = await db.collection("pixelBoards").find().toArray();
+    if (!pixelBoards) {
+      reponse = {
+        succes: false,
+        msg: "aucun users",
+        data: [],
+      };
+    } else {
+      reponse = {
+        succes: true,
+        msg: "pixelBoards recherchés avec succès",
+        data: pixelBoards,
+      };
+    }
+  } catch (err) {
+    reponse = {
+      succes: false,
+      error: err,
+      msg: "pixelBoards lors du find des users",
+    };
+  } finally {
+    //client.close();
+    return reponse;
+  }
+};
 exports.getPixelBoardsAndContributions = async (username) => {
   await mongoose.createConnection(url, {
     useNewUrlParser: true,
@@ -154,7 +188,41 @@ exports.getLastFinishedPixelBoards = async () => {
   let pixelBoard;
 
   try {
-    pixelBoard = await db.collection("pixelBoards").find({$where:"this.dateFin<'"+todayDate()+"'"}).limit(9).sort({"dateFin":-1}).toArray();
+    pixelBoard = await db.collection("pixelBoards").find({statut:true}).limit(9).sort({"dateFin":-1}).toArray();
+    if (!pixelBoard) {
+      reponse = {
+        succes: false,
+        msg: "aucun pixelBoard",
+        data: [],
+      };
+    }
+    reponse = {
+      succes: true,
+      msg: "pixelBoard find avec succès",
+      data: pixelBoard,
+    };
+  } catch (err) {
+    reponse = {
+      succes: false,
+      error: err,
+      msg: "erreur lors du find des pixelBoards",
+    };
+  } finally {
+    return reponse;
+  }
+};
+
+xports.getPixelBoardsLastCreated = async () => {
+  await mongoose.createConnection(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  const db = mongoose.connection;
+  let reponse;
+  let pixelBoard;
+
+  try {
+    pixelBoard = await db.collection("pixelBoards").find().limit(9).sort({"dateCreation":-1}).toArray();
     if (!pixelBoard) {
       reponse = {
         succes: false,
