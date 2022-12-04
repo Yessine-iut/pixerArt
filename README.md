@@ -1,13 +1,16 @@
 # pixerArt
 Projet M2 du module Serveur Side JavaScript
 
+Vidéo de démo du projet disponible [ici](https://www.youtube.com/)
+
+Le bonus "exporter un PixelBoard en image" a été fait.  
+
 # modèle de données
 Utilisateur: 
 - username:String (unique)
 - mdp:String (mot de passe)
 - role:String (admin, client)
 - theme:String (dark ou light thème du navigateur)
-	     
 
 PixelBoard: 
 - statut : Boolean (en cours de création ou terminée)
@@ -33,4 +36,24 @@ Un docker-compose.yml permet de construire et démarrer:
 Pour les lancer, faites : 
 ```bash
 sudo docker compose up --build
+```
+------
+Sinon, vous pouvez lancer le backend et le frontend sans utiliser docker. Pour cela :   
+
+- avoir un service mongo tournant sur localhost:27017.  
+(l'ip "localhost" peut être changée via le fichier pixernode/.env.dev)
+
+- lancer le backend dans une console : 
+```bash
+cd pixernode
+npm i
+npm run dev
+```
+Plusieurs modes de lancement (npm run) sont disponibles tels que "test", "dev", "dev-init"  (cf : /pixernode/package.json rubrique scripts)
+
+- lancer le frontend dans une console : 
+```bash
+cd pixerart
+npm i
+npm start
 ```
