@@ -54,7 +54,13 @@ app.get('/api/user/:username', (req, res) => {
 			res.send(JSON.stringify(data));
 		});
 });
-
+// retourne tous les pixelBoards
+app.get('/api/pixelBoards', (req, res) => {
+	mongoDBModule.getPixelBoards()
+		.then(data => {
+			res.send(JSON.stringify(data));
+		});
+});
 app.get('/api/pixelBoards/:username', (req, res) => {
 	var username = req.params.username;
 	mongoDBModule.getPixelBoardsAndContributions(username)
