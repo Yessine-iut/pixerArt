@@ -21,7 +21,7 @@ function PixelBoardPage() {
 		if (user != null) {
 			const apiUrlBoards = 'http://localhost:8080/api/pixelBoard/' + id;
 			axios.get(apiUrlBoards).then((boardsapi) => {
-				pixelBoard = boardsapi.data.pixelBoard;
+				pixelBoard = boardsapi.data;
 				setAppState({ loading: false, pixelBoard: pixelBoard });
 			});
 		} else {

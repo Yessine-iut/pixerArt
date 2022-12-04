@@ -26,6 +26,7 @@ function ProfilPage() {
 			else{
 				const apiUrlBoards = 'http://localhost:8080/api/pixelBoardsByUsername/'+user.username;
 				axios.get(apiUrlBoards).then((boardsapi) => {
+					console.log(boardsapi)
 					user.boards = boardsapi.data.data[0];
 					user.contributions = boardsapi.data.data[1];
 					setAppState({ loading: false, user: user });

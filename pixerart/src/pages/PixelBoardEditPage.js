@@ -22,7 +22,8 @@ function PixelBoardEditPage() {
 			if (user.role === 'admin') {
 				const apiUrlBoards = 'http://localhost:8080/api/pixelBoard/' + id;
 				axios.get(apiUrlBoards).then((boardsapi) => {
-					pixelBoardEdit = boardsapi.data.pixelBoard;
+					console.log(boardsapi)
+					pixelBoardEdit = boardsapi.data;
 					setAppState({ loading: false, pixelBoardEdit: pixelBoardEdit });
 				});
 			}
