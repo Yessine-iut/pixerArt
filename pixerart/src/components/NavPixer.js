@@ -59,22 +59,27 @@ export const NavPixer = () => {
     function IsLoggedIn(user) {
         let res;
         if (user.user !== null && user.user !== undefined) {
-            res = <><Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} onClick={logout}>Logout</Link>
+            res = <>
+            <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} onClick={logout}>Se deconnecter</Link>
                 <Navbar.Text>
-                    &nbsp;Logged in as: <a href="/profil">{user.user.username}</a>
+                    &nbsp;Connecté en tant que: <a href="/profil">{user.user.username}</a>
                 </Navbar.Text></>
         }
         else {
-            res = <><Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/login'}>Login</Link>
-                <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/register'}>Register</Link></>
+            res = <><Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/login'}>Se connecter</Link>
+                <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/register'}>Créer un compte</Link></>
         }
         return res
     }
     let adminRender = <></>
     if (user !== null && user !== undefined) {
+        adminRender = <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/profil'}>Votre profil</Link>
 
         if (user.role === "admin") {
-            adminRender = <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/pixelBoardCreate'}>Create PixelBoard</Link>
+            adminRender = <>
+                        <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/pixelBoardCreate'}>Créer un PixelBoard</Link>
+                        <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none' }} href={'/profil'}>Votre profil</Link>
+            </>
         }
     }
 

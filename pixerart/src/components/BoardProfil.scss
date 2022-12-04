@@ -1,3 +1,9 @@
+canvas {
+	border: 1px solid black;
+	background-color: var(--chakra-colors-chakra-body-bg);
+	margin-left:auto;
+	margin-right:auto;
+}
 .BoardProfil {
 	cursor: pointer;
 	display: flex;
@@ -20,4 +26,10 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 	}
+}
+
+.DeleteButton{
+	padding: 5px 0px 5px 0px!important;
+    align-self:end;
+    border-radius: 50em!important;
 }

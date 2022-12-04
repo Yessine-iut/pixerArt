@@ -33,8 +33,8 @@ export const PixelBoardCreate = () => {
 		"titre": "",
 		"pixels": [],
 		"taille": {
-			"height": 500,
-			"width": 500
+			"height": 50,
+			"width": 50
 		}
 	});
 	let today=new Date();
@@ -82,7 +82,7 @@ export const PixelBoardCreate = () => {
 					boxShadow="lg"
 				>
 					<Box textAlign="center">
-						<Heading>Create PixelBoard</Heading>
+						<Heading>Créer un PixelBoard</Heading>
 					</Box>
 					<Box my={4} textAlign="left">
 						<form onSubmit={handleSubmit}>
@@ -133,7 +133,7 @@ export const PixelBoardCreate = () => {
 									type="number"
 									onChange={handleChange}
 									name="width"
-									placeholder="500"
+									placeholder="50"
 								/>
 								<FormLabel>Hauteur</FormLabel>
 								<Input
@@ -141,7 +141,7 @@ export const PixelBoardCreate = () => {
 									type="number"
 									onChange={handleChange}
 									name="height"
-									placeholder="500"
+									placeholder="50"
 								/>
 							</FormControl>
 							<Button

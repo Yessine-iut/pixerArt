@@ -75,7 +75,7 @@ export const Register = () => {
 					boxShadow="lg"
 				>
 					<Box textAlign="center">
-						<Heading>Register</Heading>
+						<Heading>Créer un compte</Heading>
 					</Box>
 					<Box my={4} textAlign="left">
 						<form onSubmit={handleSubmit}>
@@ -138,7 +138,7 @@ export const Register = () => {
 										color="teal"
 									/>
 								) : (
-									'Register'
+									'Valider'
 								)}
 							</Button>
 						</form>
