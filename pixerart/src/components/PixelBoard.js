@@ -93,7 +93,7 @@ export const PixelBoard = (props) => {
 	};
 
 	const handleZoomDown = () => {
-		setZoom(Math.max(1,zoom-0.25))
+		setZoom(Math.max(0.1,zoom-0.25))
 		const canvas = canvasRef.current;
 		const context = canvas.getContext('2d');
 		initDraw(context)

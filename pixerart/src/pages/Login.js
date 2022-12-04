@@ -97,7 +97,7 @@ export const Login = () => {
 					) : (
 						<>
 							<Box textAlign="center">
-								<Heading>Login</Heading>
+								<Heading>Se connecter</Heading>
 							</Box>
 							<Box my={4} textAlign="left">
 								<form onSubmit={handleSubmit}>
@@ -143,7 +143,7 @@ export const Login = () => {
 												color="teal"
 											/>
 										) : (
-											'Sign In'
+											'Valider'
 										)}
 									</Button>
 								</form>

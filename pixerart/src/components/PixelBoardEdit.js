@@ -34,8 +34,8 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 			"titre": "",
 			"pixels": [],
 			"taille": {
-				"height": 500,
-				"width": 500
+				"height": 50,
+				"width": 50
 			}
 		}
 	} else pixelBoardSource = pixelBoardEdit.pixelBoardEdit
@@ -155,7 +155,7 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 									type="number"
 									onChange={handleChange}
 									name="width"
-									placeholder="500"
+									placeholder="50"
 									value={pixelBoard.width}
 								/>
 								<FormLabel>Hauteur</FormLabel>
@@ -164,7 +164,7 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 									type="number"
 									onChange={handleChange}
 									name="height"
-									placeholder="500"
+									placeholder="50"
 									value={pixelBoard.height}
 								/>
 							</FormControl>
