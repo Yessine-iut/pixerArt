@@ -3,9 +3,9 @@ import useLocalStorage from '../lib/useLocalStorage';
 import useSessionStorage from '../lib/useSessionStorage';
 import axios from 'axios';
 import React, { useEffect } from 'react';
-
 import {
-    useNavigate
+    useNavigate,
+    useLocation
 } from 'react-router-dom';
 import {
     Box,
@@ -21,6 +21,8 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 export const NavPixer = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
     const { colorMode, toggleColorMode } = useColorMode();
 
     const [user, setUser] = useSessionStorage('user');
@@ -45,7 +47,12 @@ export const NavPixer = () => {
     const logout = () => {
         setUser(null);
         setToken(null);
+        if(location.pathname==="/")
+        navigate(0)
+        else
         navigate('/');
+        
+
     };
     
     useEffect(() => {

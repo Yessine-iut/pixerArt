@@ -1,6 +1,6 @@
 .BoardList {
 	float:right;
-	width:60%;
+	width:99%;
 	> ul {
 		list-style-type: none;
 		list-style: none;
@@ -22,3 +22,13 @@
 		color: #4aa0fb;
 	}
 }
+h2{
+	word-wrap:initial;
+}
+
+@media only screen and (min-width: 600px) {
+	.BoardList {
+		float:right;
+		width:60%;
+	}
+  }

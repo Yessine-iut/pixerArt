@@ -16,8 +16,8 @@ import axios from 'axios';
 export const BoardProfil = ({ board }) => {
 	const navigate = useNavigate();
 	const user = useSessionStorage('user')[0];
-	const zoomw = 100 / board.taille.width
-	const zoomh = 100 / board.taille.height
+	const zoomw = 150 / board.taille.width
+	const zoomh = 150 / board.taille.height
 	let token = useSessionStorage('token')[0];
 
 
@@ -67,14 +67,14 @@ export const BoardProfil = ({ board }) => {
 	}
 
 	return (
-		<Card className='BoardProfil' style={{ height: '25rem', width: '20rem' }}>
+		<Card className='BoardProfil'>
 			{candelete}
 			<Card.Body>
 				<Card.Title>{board.titre}</Card.Title>
 				<canvas ref={canvasRef} />
 				<Card.Text>
 					Ce board a été créé le {board.dateCreation}.<br />
-					Sa date de fin est le {board.dateFin}.
+					Sa date de fin est le {board.dateFin}.<br />
 					C'est un board {board.mode}.
 				</Card.Text>
 				<br />
