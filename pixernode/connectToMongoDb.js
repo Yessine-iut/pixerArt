@@ -1,7 +1,8 @@
 var ObjectId = require("mongodb").ObjectID;
 const mongoose = require("mongoose");
 // Connection URL
-const url = "mongodb://database:27017/pixerart";
+console.log(`${process.env.API_URL}`)
+const url = `mongodb://${process.env.API_URL}:27017/pixerart`;
 exports.connexionMongo = async () => {
   mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
   const db = mongoose.connection;
@@ -169,14 +170,6 @@ exports.getPixelBoardsContribuate = async (username) => {
   }
 };
 
-function todayDate(){
-  var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth() + 1;
-	if (dd < 10) dd = '0' + dd;
-	if (mm < 10) mm = '0' + mm;
-	return today.getFullYear() + '-' + mm + '-' + dd;
-}
 
 exports.getLastFinishedPixelBoards = async () => {
   await mongoose.createConnection(url, {
@@ -186,7 +179,7 @@ exports.getLastFinishedPixelBoards = async () => {
   const db = mongoose.connection;
   let reponse;
   let pixelBoard;
-
+  await db.collection("pixelBoards").find({statut:true}).limit(9).sort({"dateFin":-1}).toArray();
   try {
     pixelBoard = await db.collection("pixelBoards").find({statut:true}).limit(9).sort({"dateFin":-1}).toArray();
     if (!pixelBoard) {
@@ -212,7 +205,7 @@ exports.getLastFinishedPixelBoards = async () => {
   }
 };
 
-xports.getPixelBoardsLastCreated = async () => {
+exports.getPixelBoardsLastCreated = async () => {
   await mongoose.createConnection(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

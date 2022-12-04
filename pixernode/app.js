@@ -59,6 +59,12 @@ app.get('/api/pixelBoards', (req, res) => {
 	mongoDBModule.getPixelBoards()
 		.then(data => {
 			res.send(JSON.stringify(data));
+			for (let pixelBoard of data.data) {
+				if(!pixelBoard.statut && new Date()>new Date(pixelBoard.dateFin)){
+					pixelBoard.statut=true;
+					mongoDBModule.updatePixelBoard(pixelBoard._id, pixelBoard)
+				}
+			  }
 		});
 });
 app.get('/api/pixelBoards/:username', (req, res) => {

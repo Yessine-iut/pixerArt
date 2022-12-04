@@ -18,15 +18,12 @@ function PixelBoardPage() {
 	useEffect(() => {
 		let pixelBoard = null;
 		setAppState({ loading: true });
-		if (user != null) {
 			const apiUrlBoards = 'http://localhost:8080/api/pixelBoard/' + id;
 			axios.get(apiUrlBoards).then((boardsapi) => {
 				pixelBoard = boardsapi.data;
 				setAppState({ loading: false, pixelBoard: pixelBoard });
 			});
-		} else {
-			setAppState({ loading: false, pixelBoard: pixelBoard });
-		}
+		
 
 	}, [setAppState, user, token, id]);
 	return (

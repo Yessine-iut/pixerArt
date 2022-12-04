@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
 const bcrypt = require('bcrypt');
 // connect to database
-mongoose.connect('mongodb://127.0.0.1/pixerart',{
+mongoose.connect(`mongodb://${process.env.API_URL}/pixerart`,{
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
