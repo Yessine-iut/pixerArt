@@ -5,6 +5,37 @@ Vidéo de démo du projet disponible [ici](https://www.youtube.com/)
 
 Le bonus "exporter un PixelBoard en image" a été fait.  
 
+# contributeurs
+
+- Ahmed Saad el din Ahmed
+	- git : saad-ahmed98
+	- Tâches effectuées : 
+		- Mise en place de pixelboards
+		- Téléchargement pixelboards (BONUS)
+		- Page de profil
+		- Previsualisation pixelboards sur liste de pixelboards
+		- Tri par date
+		- Création de formulaires login,logout,création et edit pixelboard (avec Yessine)
+- Ben el bey Yessine
+	- git : Yessine-iut
+	- Tâches effectuées :
+		- Création de l'api node.js
+		- Mise en place de mongoose et appels vers BD
+		- Authentification avec passport
+		- Création de formulaires login,logout,création et edit pixelboard (avec Saad)
+- Nortier Hugo
+	- git : Hugo-Nortier
+	- Tâches effectuées :
+		- Mise en place de docker
+		- Création du home page et appelles api correspondantes
+		- Theme light et dark
+		- Amélioration design et responsivité
+- Mackpayen Prince Divin
+	- git : Osiris-ouaga
+	- Tâches effectuées :
+		- Authentification
+		- Login et logout
+
 # modèle de données
 Utilisateur: 
 - username:String (unique)
@@ -42,6 +73,13 @@ Sinon, vous pouvez lancer le backend et le frontend sans utiliser docker. Pour c
 
 - avoir un service mongo tournant sur localhost:27017.  
 (l'ip "localhost" peut être changée via le fichier pixernode/.env.dev)
+
+- injecter les données initiales dans la BD :
+```bash
+cd pixernode
+npm i
+npm run dev-init
+```
 
 - lancer le backend dans une console : 
 ```bash
