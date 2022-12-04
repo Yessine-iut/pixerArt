@@ -8,9 +8,12 @@ import { Link } from 'react-router-dom';
 
 export const BoardProfil = ({ board}) => {
 	const user = useSessionStorage('user')[0];
-	let canedit = <Button ><Link to={`/pixelBoardEdit?id=${board._id}`}>Editer board</Link></Button>
-	if(user.role==="client")
-		canedit= <></>
+	let canedit=<></>
+	if(user!=null){
+		if( user.role==="admin"){
+			canedit = <Button ><Link to={`/pixelBoardEdit?id=${board._id}`}>Editer board</Link></Button>
+		}
+	}
 	return (
 		<Card className='BoardProfil' style={{ height: '20rem', width: '20rem' }}>
 			<Card.Body>

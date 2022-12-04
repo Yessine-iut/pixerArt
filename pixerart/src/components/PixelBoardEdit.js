@@ -52,6 +52,13 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 		"width": pixelBoardSource.taille.width,
 		"auteur": pixelBoardSource.auteur
 	});
+	let today;
+	let tomorrow=new Date();
+	if(pixelBoard.dateCreation!==''){
+		today=new Date(pixelBoard.dateCreation)
+		tomorrow=today.setDate(today.getDate() + 1)
+	}
+	
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -117,6 +124,7 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 									size="md"
 									type="date"
 									name="dateFin"
+									min={new Date(tomorrow).toISOString().split('T')[0]}
 									value={pixelBoard.dateFin}
 									onChange={handleChange}
 								/>
@@ -174,7 +182,7 @@ export const PixelBoardEdit = (pixelBoardEdit) => {
 										color="teal"
 									/>
 								) : (
-									'Register'
+									'Editer le pixelBoard'
 								)}
 							</Button>
 						</form>

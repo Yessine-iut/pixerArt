@@ -37,6 +37,8 @@ export const PixelBoardCreate = () => {
 			"width": 500
 		}
 	});
+	let today=new Date();
+	let tomorrow=today.setDate(today.getDate() + 1)
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -102,6 +104,7 @@ export const PixelBoardCreate = () => {
 								<Input
 									size="md"
 									type="date"
+									min={new Date(tomorrow).toISOString().split('T')[0]}
 									name="dateFin"
 									onChange={handleChange}
 								/>
@@ -155,7 +158,7 @@ export const PixelBoardCreate = () => {
 										color="teal"
 									/>
 								) : (
-									'Register'
+									'Créer le pixelBoard'
 								)}
 							</Button>
 						</form>
