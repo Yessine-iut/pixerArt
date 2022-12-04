@@ -140,7 +140,7 @@ app.put('/api/addPixel/:id', multerData.fields([]), (req, res) => {
 });
 app.delete('/api/pixelBoard/:id', (req, res) => {
 	var id = req.params.id;
-	mongoDBModule.deleteUser(id)
+	mongoDBModule.deletePixelBoard(id)
 		.then(data => {
 			res.send(JSON.stringify(data));
 		});
