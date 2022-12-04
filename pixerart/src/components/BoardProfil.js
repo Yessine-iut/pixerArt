@@ -34,7 +34,7 @@ export const BoardProfil = ({ board }) => {
 		board.pixels.forEach((d) => {
 			ctx.beginPath();
 			ctx.fillStyle = d.couleur;
-			ctx.rect(d.position.x * zoomw, d.position.y * zoomh, zoomw * 1, 1 * zoomh);
+			ctx.rect(d.position.x/20 * zoomw, d.position.y/20 * zoomh, zoomw * 1, 1 * zoomh);
 			ctx.fill();
 		});
 	}, [board.pixels, zoomh, zoomw]);
