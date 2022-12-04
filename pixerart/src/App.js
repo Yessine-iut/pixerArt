@@ -14,6 +14,7 @@ import { Login } from './pages/Login';
 import { PixelBoardCreate } from './pages/PixelBoardCreate';
 import PixelBoardEditPage from './pages/PixelBoardEditPage';
 
+import { Footer } from './components/Footer';
 
 
 import { ChakraProvider } from '@chakra-ui/react'
@@ -39,6 +40,7 @@ const App = () => (
 				</Routes>
 			</Container>
 		</Router>
+		<Footer />
 	</ChakraProvider>
 );
 
