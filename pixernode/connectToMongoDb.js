@@ -215,7 +215,7 @@ exports.getPixelBoardsLastCreated = async () => {
   let pixelBoard;
 
   try {
-    pixelBoard = await db.collection("pixelBoards").find().limit(9).sort({"dateCreation":-1}).toArray();
+    pixelBoard = await db.collection("pixelBoards").find({statut:false}).limit(9).sort({"dateCreation":-1}).toArray();
     if (!pixelBoard) {
       reponse = {
         succes: false,
