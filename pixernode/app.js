@@ -85,6 +85,14 @@ app.get('/api/pixelBoardsFinished/', (req, res) => {
 		});
 });
 
+//Récupération des 9! derniers pixelboard créés
+app.get('/api/pixelBoardsLastCreated/', (req, res) => {
+	mongoDBModule.getPixelBoardsLastCreated()
+		.then(data => {
+			res.send(JSON.stringify(data));
+		});
+});
+
 app.get('/api/pixelBoardsByUsername/:username', (req, res) => {
 	var username = req.params.username;
 	mongoDBModule.getPixelBoardsContribuate(username)
@@ -126,7 +134,7 @@ app.put('/api/addPixel/:id', multerData.fields([]), (req, res) => {
 });
 app.delete('/api/pixelBoard/:id', (req, res) => {
 	var id = req.params.id;
-	mongoDBModule.deletePixelBoard(id)
+	mongoDBModule.deleteUser(id)
 		.then(data => {
 			res.send(JSON.stringify(data));
 		});
